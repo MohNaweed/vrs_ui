@@ -4,6 +4,7 @@ import {FusePageSimple} from '@fuse';
 
 import MaterialTable from 'material-table';
 
+
 const styles = theme => ({
     layoutRoot: {}
 });
@@ -16,6 +17,20 @@ const ListDrivers = (props) =>{
         { title: 'Page Count', field: 'num_pages' },
         { title: 'Rating', field: 'rating' }
       ];
+
+    //CRUD Functions
+    const handleRowAdd = (newData, resolve) => { 
+        console.log(newData);
+        resolve();
+    }
+    const handleRowDelete = (oldData, resolve) => { 
+        console.log(oldData);
+        resolve(); 
+    }
+    const handleRowUpdate = (newData, oldData, resolve) => { 
+        console.log(oldData, newData);
+        resolve();
+    }
     return (
         <FusePageSimple
             classes={{
@@ -38,14 +53,27 @@ const ListDrivers = (props) =>{
                         title='Books Directory'
                         onRowClick={(evt, selectedRow) =>
                             setSelectedRow(selectedRow.tableData.id)
-                          }
-                          options={{
-                            search: false,
+                        }
+                        options={{
                             rowStyle: rowData => ({
                               backgroundColor:
                                 selectedRow === rowData.tableData.id ? '#67aeae' : '#FFF'
                             })
-                          }} 
+                        }}
+                        editable={{
+                            onRowUpdate: (newData, oldData) =>
+                                new Promise((resolve) => {
+                                handleRowUpdate(newData, oldData, resolve);
+                            }),
+                            onRowAdd: (newData) =>
+                                new Promise((resolve) => {
+                                handleRowAdd(newData, resolve)
+                            }),
+                            onRowDelete: (oldData) =>
+                                new Promise((resolve) => {
+                                handleRowDelete(oldData, resolve)
+                            }),
+                        }} 
                     
                     
                     
