@@ -1,7 +1,7 @@
 import React from 'react';
 import {FuseAuthorization, FuseLayout, FuseTheme} from '@fuse';
 import Provider from 'react-redux/es/components/Provider';
-import {Router} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 import jssExtend from 'jss-extend';
 import history from '@history';
 import {Auth} from './auth';
@@ -10,6 +10,7 @@ import AppContext from './AppContext';
 import routes from './fuse-configs/routesConfig';
 import {create} from 'jss';
 import {StylesProvider, jssPreset, createGenerateClassName} from '@material-ui/styles';
+import Login from './auth/login';
 
 const jss = create({
     ...jssPreset(),
@@ -20,6 +21,7 @@ const jss = create({
 const generateClassName = createGenerateClassName();
 
 const App = () => {
+    
     return (
         <AppContext.Provider
             value={{
@@ -32,7 +34,14 @@ const App = () => {
                         <Router history={history}>
                             <FuseAuthorization>
                                 <FuseTheme>
-                                    <FuseLayout/>
+                                    <Switch>
+                                        <Route path="/login" exact>
+                                            <Login />
+                                        </Route>
+                                        <Route path="/">
+                                            <FuseLayout/>
+                                        </Route>
+                                    </Switch>
                                 </FuseTheme>
                             </FuseAuthorization>
                         </Router>

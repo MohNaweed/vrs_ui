@@ -53,6 +53,7 @@ const ListDrivers = (props) =>{
           .catch(error=>{
             setErrorMessages(["Connection Lost"]);
             setIserror(true);
+            setMainLoading(false);
           })
     }, [dispatch])
     const columns = [
