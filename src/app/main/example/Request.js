@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import {FusePageSimple} from '@fuse';
+import {useSelector} from 'react-redux';
 //import { FormControl, InputLabel, Input, FormHelperText, Button } from '@material-ui/core';
 import axios from 'axios';
 const styles = theme => ({
@@ -10,6 +11,8 @@ const styles = theme => ({
 
 
 const Request = (props) =>{
+    const isLogin = useSelector(state => state.sanctumAuth.login.success);
+
     useEffect(() => {
         axios.get("http://localhost:8000/api/laravelapi")
           .then(res => {
@@ -21,7 +24,7 @@ const Request = (props) =>{
     }, []);
     return (
         <>
-        <Redirect to='/driver'/>
+        {(!isLogin) && (<Redirect to='/login'/>) }
         <FusePageSimple
             classes={{
                 root: props.layoutRoot

@@ -1,10 +1,27 @@
 const navigationConfig = [
     {
-        'id'      : 'applications',
+        'id'      : 'dashboard',
         'title'   : 'Applications',
         'type'    : 'group',
         'icon'    : 'apps',
         'children': [
+           
+            {
+                'id'   : 'dashboard-component',
+                'title': 'Dashboard',
+                'type' : 'item',
+                'icon' : 'whatshot',
+                'url'  : '/dashboard'
+            },
+        ]
+    },
+    {
+        'id'      : 'applications',
+        'title'   : 'Management',
+        'type'    : 'group',
+        'icon'    : 'apps',
+        'children': [
+           
             {
                 'id'   : 'listDrivers-component',
                 'title': 'Drivers Management',
@@ -13,11 +30,18 @@ const navigationConfig = [
                 'url'  : '/driver'
             },
             {
-                'id'   : 'example-component',
-                'title': 'Example',
+                'id'   : 'listVehicles-component',
+                'title': 'Vehicle Management',
                 'type' : 'item',
                 'icon' : 'whatshot',
-                'url'  : '/example'
+                'url'  : '/vehicle'
+            },
+            {
+                'id'   : 'departments-component',
+                'title': 'Department',
+                'type' : 'item',
+                'icon' : 'whatshot',
+                'url'  : '/department'
             },
             {
                 'id'   : 'request-component',

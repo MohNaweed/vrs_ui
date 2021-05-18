@@ -10,7 +10,7 @@ import AppContext from './AppContext';
 import routes from './fuse-configs/routesConfig';
 import {create} from 'jss';
 import {StylesProvider, jssPreset, createGenerateClassName} from '@material-ui/styles';
-import Login from './auth/login';
+import Login from './sanctum-auth/login';
 
 const jss = create({
     ...jssPreset(),

@@ -3,11 +3,17 @@ import {Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Typ
 import {useSelector, useDispatch} from 'react-redux';
 import * as authActions from 'app/auth/store/actions';
 import {Link} from 'react-router-dom';
+import * as Actions from 'app/sanctum-auth/store/actions';
+import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 function UserMenu(props)
 {
+    const [redirect,setRedirect] = useState(false)
     const dispatch = useDispatch();
     const user = useSelector(({auth}) => auth.user);
+    const mainUser = useSelector(({sanctumAuth}) => sanctumAuth.login.user);
+    const isLogin = useSelector(({sanctumAuth}) => sanctumAuth.login.success);
 
     const [userMenu, setUserMenu] = useState(null);
 
@@ -19,9 +25,20 @@ function UserMenu(props)
         setUserMenu(null);
     };
 
+    const logoutHandler = () =>{
+        axios.post('http://localhost:8000/logout')
+        .then(res2 =>{
+          dispatch(Actions.logoutSuccess());
+
+          setRedirect(true);
+        })
+
+        
+    }
+
     return (
         <React.Fragment>
-
+            {redirect && <Redirect to="/login" />}
             <Button className="h-64" onClick={userMenuClick}>
                 {user.data.photoURL ?
                     (
@@ -37,7 +54,7 @@ function UserMenu(props)
 
                 <div className="hidden md:flex flex-col ml-12 items-start">
                     <Typography component="span" className="normal-case font-600 flex">
-                        {user.data.displayName}
+                        {mainUser.name ? mainUser.name : 'Admin'}
                     </Typography>
                     <Typography className="text-11 capitalize" color="textSecondary">
                         {user.role.toString()}
@@ -65,12 +82,18 @@ function UserMenu(props)
             >
                 {!user.role || user.role.length === 0 ? (
                     <React.Fragment>
-                        <MenuItem component={Link} to="/login">
+                        {isLogin && <MenuItem onClick={(e)=>logoutHandler(e)}>
+                            <ListItemIcon className="min-w-40">
+                                <Icon>lock</Icon>
+                            </ListItemIcon>
+                            <ListItemText className="pl-0" primary="Logout"/>
+                        </MenuItem>}
+                        {(!isLogin) && <MenuItem component={Link} to="/login">
                             <ListItemIcon className="min-w-40">
                                 <Icon>lock</Icon>
                             </ListItemIcon>
                             <ListItemText className="pl-0" primary="Login"/>
-                        </MenuItem>
+                        </MenuItem>}
                         <MenuItem component={Link} to="/register">
                             <ListItemIcon className="min-w-40">
                                 <Icon>person_add</Icon>
