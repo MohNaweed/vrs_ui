@@ -49,6 +49,20 @@ const navigationConfig = [
                 'type' : 'item',
                 'icon' : 'assignment',
                 'url'  : '/request'
+            },
+            {
+                'id'   : 'requestfuel-component',
+                'title': 'Request Fuel',
+                'type' : 'item',
+                'icon' : 'assignment',
+                'url'  : '/request_fuel'
+            },
+            {
+                'id'   : 'location-component',
+                'title': 'Add Location',
+                'type' : 'item',
+                'icon' : 'assignment',
+                'url'  : '/location'
             }
         ]
     }

@@ -94,7 +94,7 @@ function UserMenu(props)
                             </ListItemIcon>
                             <ListItemText className="pl-0" primary="Login"/>
                         </MenuItem>}
-                        <MenuItem component={Link} to="/register">
+                        <MenuItem component={Link} to="/create_user">
                             <ListItemIcon className="min-w-40">
                                 <Icon>person_add</Icon>
                             </ListItemIcon>

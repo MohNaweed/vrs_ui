@@ -34,20 +34,20 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-const ListDrivers = (props) =>{
+const Location = (props) =>{
     const classes = useStyles();
     const [selectedRow, setSelectedRow] = useState(null);
     const [iserror, setIserror] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
     const dispatch = useDispatch();
-    const drivers = useSelector(state => state.main.driver.drivers);
+    const locations = useSelector(state => state.main.location.locations);
     const [mainLoading, setMainLoading] = useState([true]);
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/drivers")
+        axios.get("http://localhost:8000/api/v1/locations")
           .then(res => {
-            dispatch(Actions.setDrivers(res.data));
+            dispatch(Actions.setLocations(res.data));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -63,28 +63,20 @@ const ListDrivers = (props) =>{
             hidden: true,
             validate: rowData => rowData.name.length > 3? 'Name cannot be empty' : ''
         },
-        { title: 'Name*', field: 'name' },
-        { title: 'Surname', field: 'last_name' },
-        { title: 'Mobile*', field: 'mobile_no' },
-        { title: 'License No', field: 'license_no' },
-        { title: 'License Exp', field: 'license_expiry_no'},
-        { title: 'NIN', field: 'NIN' },
-        { 
-            title: 'Province', 
-            field: 'province',
-            lookup: provinces_all
-        },
-        { title: 'Branch', field: 'branch_no'},
+        { title: 'Address*', field: 'address' },
+        { title: 'Longitude', field: 'longitude' },
+        { title: 'Latitude', field: 'latitude' },
+        { title: 'Information', field: 'location_info' }
 
       ];
 
     //CRUD Functions
     const handleRowAdd = (newData, resolve, reject) => { 
         setMainLoading(true);
-        axios.post("http://localhost:8000/api/v1/drivers", newData)
+        axios.post("http://localhost:8000/api/v1/locations", newData)
           .then(res => {
             console.log(res.data);
-            dispatch(Actions.addDriver(newData));
+            dispatch(Actions.addLocation(newData));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -96,10 +88,10 @@ const ListDrivers = (props) =>{
     }
     const handleRowDelete = (oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.delete(`http://localhost:8000/api/v1/drivers/${oldData.id}`)
+        axios.delete(`http://localhost:8000/api/v1/locations/${oldData.id}`)
           .then(res => {
             console.log(res.data);
-            dispatch(Actions.delDriver(oldData));
+            dispatch(Actions.delLocation(oldData));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -111,10 +103,10 @@ const ListDrivers = (props) =>{
     }
     const handleRowUpdate = (newData, oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.put(`http://localhost:8000/api/v1/drivers/${newData.id}`, newData)
+        axios.put(`http://localhost:8000/api/v1/locations/${newData.id}`, newData)
           .then(res => {
             console.log(res.data);
-            dispatch(Actions.putDriver(newData));
+            dispatch(Actions.putLocation(newData));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -127,7 +119,7 @@ const ListDrivers = (props) =>{
     // end of CRUD functions
     //validation
     const isValidate = (newData)=>{
-        if(newData.name === undefined || newData.mobile_no === undefined || newData.name === null || newData.mobile_no === null){
+        if(newData.address === undefined ||  newData.name === null ){
           
             const newError = [];
             newError.push('Please fill the required fields');
@@ -205,16 +197,12 @@ const ListDrivers = (props) =>{
                         title='Drivers Details'
                         columns={columns} 
                         data={
-                            drivers.map(data => ({
+                            locations.map(data => ({
                                 id : data.id,
-                                name : data.name,
-                                last_name: data.last_name,
-                                mobile_no: data.mobile_no,
-                                license_no : data.license_no,
-                                licens_expiry_date : data.licens_expiry_date,
-                                NIN: data.NIN,
-                                province: data.province,
-                                branch_no : data.branch_no
+                                address: data.address,
+                                longitude: data.longitude,
+                                latitude: data.latitude,
+                                location_info: data.location_info
                             }))
                         } 
                         
@@ -254,49 +242,5 @@ const ListDrivers = (props) =>{
     )
 }
 
-export default withStyles(styles, {withTheme: true})(ListDrivers);
+export default withStyles(styles, {withTheme: true})(Location);
 
-
-
-
-
-
-
-
-
-const provinces_all = {
-	'Badakhshan': 'Badakhshan',
-	'Badghis': 'Badghis',
-	'Baghlan': 'Baghlan',
-	'Balkh': 'Balkh',
-	'Bamyan': 'Bamyan',
-	'Daykundi': 'Daykundi',
-	'Farah': 'Farah',
-	'Faryab': 'Faryab',
-	'Ghazni': 'Ghazni',
-	'Ghor': 'Ghor',
-	'Helmand': 'Helmand',
-	'Herat': 'Herat',
-	'Jowzjan': 'Jowzjan',
-	'Kabul': 'Kabul',
-	'Kandahar': 'Kandahar',
-	'Kapisa': 'Kapisa',
-	'Khost': 'Khost',
-	'Kunar': 'Kunar',
-	'Kunduz': 'Kunduz',
-	'Laghman': 'Laghman',
-	'Logar': 'Logar',
-	'Maidan_Wardak': 'Maidan_Wardak',
-	'Ningarhar':'Ningarhar',
-	'Nimruz':'Nimruz',
-	'Nuristan':'Nuristan',
-	'Paktia':'Paktia',
-	'Paktika':'Paktika',
-	'Panjshir':'Panjshir',
-	'Parwan':'Parwan',
-	'Samangan':'Samangan',
-	'Sar_e_pol' :'Sar_e_pol',
-	'Takhar':'Takhar',
-	'Uruzgan':'Uruzgan',
-	'Zabul':'Zabul'
-}

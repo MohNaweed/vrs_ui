@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {  makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,6 +15,7 @@ import { Redirect } from 'react-router-dom';
 
 const Login = (props) =>{
     axios.defaults.withCredentials = true;
+    const baseURL = "http://localhost:8000";
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -31,6 +32,11 @@ const Login = (props) =>{
     const [passErrorMsg, setPassErrorMsg ] = useState('');
     const [isLogingError,setIsLogingError] = useState(false);
     const [showLoading,setShowLoading] = useState(false);
+
+    useEffect(()=>{
+      axios.post(baseURL+"/logout").then(res=> console.log('logout successssss'));
+
+    },[])
 
     const emailHandler = (e)=>{
       setEmail(e.target.value);
@@ -62,11 +68,11 @@ const Login = (props) =>{
           try
           {
             
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-            await axios.post("http://localhost:8000/login",{email,password:pass});
-            const res3 = await  axios.get('http://localhost:8000/api/user');
+            await axios.get(baseURL+'/sanctum/csrf-cookie');
+            await axios.post(baseURL+"/login",{email,password:pass});
+            const res3 = await  axios.get(baseURL+'/api/user');
             const user = res3.data;
-            //console.log(user);
+            console.log(user);
             dispatch(Actions.loginSuccess(user));
             
           }
@@ -132,6 +138,13 @@ const Login = (props) =>{
                         size="small"
                         onClick={()=> console.log('pressed sign up')}
                     >Sign up</Button>
+                    <Button 
+                        className={classes.item} 
+                        size="small"
+                        onClick={()=> {
+                          document.cookie = "laravel_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=http://localhost:3000;";
+                        }}
+                    >clear cookies</Button>
                 </CardContent>
             </Card>
         </div>
