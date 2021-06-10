@@ -44,6 +44,13 @@ const navigationConfig = [
                 'url'  : '/department'
             },
             {
+                'id'   : 'all_request-component',
+                'title': 'Request',
+                'type' : 'item',
+                'icon' : 'assignment',
+                'url'  : '/all_request'
+            },
+            {
                 'id'   : 'request-component',
                 'title': 'Request Vehicle',
                 'type' : 'item',

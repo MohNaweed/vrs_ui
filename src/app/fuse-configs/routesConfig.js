@@ -4,6 +4,7 @@ import {FuseUtils} from '@fuse';
 import {ExampleConfig} from 'app/main/example/ExampleConfig';
 import {RequestConfig} from 'app/main/request/RequestConfig';
 import {RequestFuelConfig} from 'app/main/request/RequestFuelConfig';
+import {RequestListConfig} from 'app/main/request/RequestListConfig';
 import {LocationConfig} from 'app/main/location/LocationConfig';
 import {CreateUserConfig} from 'app/main/user/CreateUserConfig';
 import ListDrivers from 'app/main/driver/ListDrivers';
@@ -15,6 +16,7 @@ import Department from 'app/main/department/departments';
 const routeConfigs = [
     RequestConfig,
     RequestFuelConfig,
+    RequestListConfig,
     LocationConfig,
     CreateUserConfig,
     ExampleConfig,

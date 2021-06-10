@@ -35,7 +35,7 @@ function Logo()
 
     return (
         <div className={clsx(classes.root, "flex items-center")}>
-            <img className={classes.bayatlogo} src="assets/images/logos/bayatlogo.png" alt="logo"/>
+            <img style={{width:100, height:100}} className={classes.bayatlogo} src="assets/images/logos/bayatlogo.png" alt="logo"/>
         </div>
     );
 }
