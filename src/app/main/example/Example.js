@@ -1,32 +1,20 @@
-import React from 'react';
-import {withStyles} from '@material-ui/core/styles';
-import {FusePageSimple, DemoContent} from '@fuse';
+import React, { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
-const styles = theme => ({
-    layoutRoot: {}
-});
+import { ComponentToPrint } from './ComponentToPrint';
 
-const Example = (props) =>{
-    return (
-        <FusePageSimple
-            classes={{
-                root: props.layoutRoot
-            }}
-            header={
-                <div className="p-24"><h4>Header</h4></div>
-            }
-            contentToolbar={
-                <div className="px-24"><h4>Content Toolbar</h4></div>
-            }
-            content={
-                <div className="p-24">
-                    <h4>Content</h4>
-                    <br/>
-                    <DemoContent/>
-                </div>
-            }
-        />
-    )
-}
+const Example = () => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
-export default withStyles(styles, {withTheme: true})(Example);
+  return (
+    <div>
+      <ComponentToPrint ref={componentRef} />
+      <button onClick={handlePrint}>Print this out!</button>
+    </div>
+  );
+};
+
+export default Example;

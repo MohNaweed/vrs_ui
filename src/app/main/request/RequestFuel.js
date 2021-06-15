@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import {TextField, Switch, MenuItem, FormControlLabel, InputLabel, FormControl, Select, Button} from '@material-ui/core';
+import {TextField, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, Select, Button} from '@material-ui/core';
 import {FusePageSimple} from '@fuse';
 import {useSelector, useDispatch} from 'react-redux';
 import * as Actions from '../../store/actions/main';
@@ -14,47 +14,30 @@ const styles = theme => ({
 
 const RequestFuel = (props) =>{
     const classes = useStyles();
-    const [source, setSource] = React.useState({
-      id: '',
-      
-    });
-    const [destination, setDestination] = React.useState({
-      id: '',
-      
-    });
-    const [isReturn, setIsReturn] = useState(true); 
-    const handleChange = name => event => {
-    setIsReturn(event.target.checked);
+    const baseURl = 'http://localhost:8000';
+    const [PKM, setPKM] = useState(''); 
+    const [CKM, setCKM] = useState(''); 
+    const [SKM, setSKM] = useState(''); 
+    const [fuelType, setFuelType] = useState('petrol');
 
-    console.log(isReturn);
-    };
-  
-    function handleChangeSource(event) {
-      setSource(oldValues => ({
-        ...oldValues,
-        [event.target.name]: event.target.value,
-      }));
-    }
-    function handleChangeDestination(event) {
-      setDestination(oldValues => ({
-        ...oldValues,
-        [event.target.name]: event.target.value,
-      }));
-    }
-    const dispatch = useDispatch();
-    const locations = useSelector(({main}) => main.location.locations);
+    function PKMHandler(event){ setPKM(event.target.value); }
+    function CKMHandler(event){ setCKM(event.target.value); }
+    function SKMHandler(event){ setSKM(event.target.value); }
+    function handleFuelTypeChange(event) { setFuelType(event.target.value);}
 
     useEffect(()=>{
-         axios.get('http://localhost:8000/api/v1/locations')
+        setSKM(CKM - PKM);
+    },[CKM, PKM])
+
+    function submitHandler(){
+        axios.post(baseURl+'/api/v1/requestfuel',{SKM, fuelType})
             .then(res=>{
-                dispatch(Actions.setLocations(res.data));
+                console.log(res.data);
             })
-            .catch(err => console.log('error:',err))
-    },[dispatch])
+            .catch(err => console.log('error:',err));
+    }
 
-    useEffect(()=>{
-        console.log(source);
-    },[source])
+
     //const isLogin = useSelector(state => state.sanctumAuth.login.success);
     return (
         <>
@@ -72,118 +55,84 @@ const RequestFuel = (props) =>{
             content={
                 <div className="p-24">
                     <form className={classes.root} autoComplete="off">
-                        <FormControl className={classes.fullwidth} >  
+                        <FormControl className={classes.formControl} >  
                             <TextField
-                                id="standard-full-width"
-                                label="Purpose"
-                                placeholder="Type your request purpose"
+                                id="1"
+                                label="Previous KM"
+                                placeholder="Previous KM"
+                                value={PKM}
+                                onChange={PKMHandler}
+                                type="number"
                                 InputLabelProps={{
                                 shrink: true,
                                 }}
                             />
                         </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="location" >From/Source Address</InputLabel>
-                            <Select
-                           
-                            value={source.id}
-                            onChange={handleChangeSource}
-                            inputProps={{
-                                name: 'id',
-                               
-                            }}
+                        <FormControl className={classes.formControl} >  
+                            <TextField
+                                id="2"
+                                label="Current KM"
+                                placeholder="Current KM"
+                                value={CKM}
+                                onChange={CKMHandler}
+                                type="number"
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl className={classes.formControl} >  
+                            <TextField
+                                id="3"
+                                label="Spend KM"
+                                placeholder="Spend KM"
+                                value={SKM}
+                                onChange={SKMHandler}
+                                type="number"
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl component="fieldset"  className={classes.fullwidth}>
+                            <FormLabel component="legend">Fuel Type</FormLabel>
+                            <RadioGroup
+                            aria-label="gender"
+                            name="gender2"
+                            className={classes.group}
+                            value={fuelType}
+                            onChange={handleFuelTypeChange}
                             >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {locations.map(data =>{
-                                return <MenuItem key={data.id} value={data.id}>{data.address}</MenuItem>
-                            })}
-                            
-                            </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="location" >To/Destination Address</InputLabel>
-                            <Select
-                           
-                            value={destination.id}
-                            onChange={handleChangeDestination}
-                            inputProps={{
-                                name: 'id',
-                               
-                            }}
-                            >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {locations.map(data =>{
-                                return <MenuItem key={data.id} value={data.id}>{data.address}</MenuItem>
-                            })}
-                            
-                            </Select>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                id="passenger_name"
-                                label="Passenger Name"
-                                placeholder="Passenger Name"
-                                InputLabelProps={{
-                                shrink: true,
-                                }}
-                            />
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                id="passenger contact"
-                                label="Passenger Contact"
-                                placeholder="Passenger Contact"
-                                InputLabelProps={{
-                                shrink: true,
-                                }}
-                            />
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                id="travel_time"
-                                label="Travel Time"
-                                type="datetime-local"
-                                defaultValue="{date}"
-                                InputLabelProps={{
-                                shrink: true,
-                                }}
-                            />
-                        </FormControl>
-                        {isReturn && <FormControl className={classes.formControl}>
-                            <TextField
-                                id="return_time"
-                                label="Return Time"
-                                type="datetime-local"
-                                defaultValue="{new date()}"
-                                InputLabelProps={{
-                                shrink: true,
-                                }}
-                            />
-                        </FormControl>}
-                        <div className={classes.bottom}>
-                        <FormControl className={classes.bottomChild}>
                             <FormControlLabel
-                                control={
-                                    <Switch
-                                    checked={isReturn}
-                                    onChange={handleChange('checkedB')}
-                                    value="checkedB"
-                                    color="secondary"
-                                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                                />
-                                }
-                                label="Return"
+                                className={classes.radio}
+                                value="petrol"
+                                control={<Radio color="primary" />}
+                                label="Petrol"
+                                labelPlacement="start"
                             />
+                            <FormControlLabel
+                                className={classes.radio}
+                                value="diesal"
+                                control={<Radio color="primary" />}
+                                label="Diesal"
+                                labelPlacement="start"
+                            />
+                            <FormControlLabel
+                                className={classes.radio}
+                                value="gaz"
+                                control={<Radio color="primary" />}
+                                label="Gaz"
+                                labelPlacement="start"
+                            />
+                           
+                            </RadioGroup>
+                
                         </FormControl>
                         <FormControl className={classes.bottomChild}>
-                            <Button variant="outlined" color="primary">Send Request</Button>
+                            <Button variant="outlined" color="primary" onClick={submitHandler}>Send Request</Button>
                         </FormControl>
-
-                        </div>
+                        
+                       
                     </form>
                    
                 </div>
@@ -201,7 +150,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        flexBasis: '400px',
+        flexBasis: '300px',
         flex: 1,
     },
     fullwidth:{
@@ -215,8 +164,18 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'space-between'
     },
     bottomChild:{
+        margin: theme.spacing(1),
         flexBasis: '200px',
 
+    },
+    group:{
+        display: 'flex',
+       
+        flexDirection: 'row'
+    },
+    radio:{
+        flex : 1,
+     
     }
   }));
 

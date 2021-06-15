@@ -1,9 +1,9 @@
-import React,{useState,useEffect, useRef } from 'react';
+import React,{useState,useEffect} from 'react';
 import {withStyles, makeStyles} from '@material-ui/core/styles';
 import {FusePageSimple} from '@fuse';
 import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
-import { InputLabel,  MenuItem, Select ,Avatar, Chip, Card,  FormControl, CardContent, Button, Typography} from '@material-ui/core';
+import { TextField ,Avatar, Chip, Card,  FormControl, CardContent, Button, Typography} from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,23 +12,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import * as Actions from '../../store/actions/main';
-import {Redirect, Link, Route} from 'react-router-dom';
-import { useReactToPrint } from 'react-to-print';
-import { RequestVehiclePrint } from './RequestVehiclePrint';
+import {Redirect} from 'react-router-dom';
+
+
 const useStyles = makeStyles({
     card: {
       minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
     },
     cardholder:{
         display: 'flex'
@@ -36,9 +25,6 @@ const useStyles = makeStyles({
     smallCard:{
         flex: 1,
         margin : 5
-    },
-    locationcard:{
-        flex:2
     }
   });
   const Transition = React.forwardRef(function Transition(props, ref) {
@@ -51,12 +37,16 @@ const RequestList = (props) =>{
     const user = useSelector(({auth}) => auth.user);
     const mainUser = useSelector(({sanctumAuth}) => sanctumAuth.login.user);
     const isLogin = useSelector(({sanctumAuth}) => sanctumAuth.login.success);
-    const requests = useSelector(state => state.main.allRequest.allRequest);
+    const requests = useSelector(state => state.main.allFuelRequest.allFuelRequest);
+    const [quantity, setQuantity] = useState('');
+    const [price, setPrice] = useState('');
     const [isAdmin,setIsAdmin] = useState(false);
     const [requestID,setRequestID] = useState(0);
     const [approveID,setApproveID] = useState(0);
-    const [canDriverAdd,setCanDriverAdd] = useState(false);
-    const [driver, setDriver] = React.useState({id: '',});
+
+    function handleChangeQuantity(event){ setQuantity(event.target.value);}
+    function handleChangePrice(event){ setPrice(event.target.value);}
+
 
 
     useEffect(()=>{
@@ -64,7 +54,7 @@ const RequestList = (props) =>{
         if(Object.keys(mainUser).length !== 0){
             if(mainUser.department.name ==='Administration' || (mainUser.department.name === 'Transport' && mainUser.department_position === 'head')){
                 setIsAdmin(true);
-                setCanDriverAdd(true);
+               
             }
             
         }
@@ -76,10 +66,10 @@ const RequestList = (props) =>{
 
     useEffect(()=>{
     
-        axios.post(baseURl+'/api/v1/requests/all')
+        axios.post(baseURl+'/api/v1/requests/fuel/all')
            .then(res=>{
                console.log(res.data);
-               dispatch(Actions.setAllRequest(res.data));
+               dispatch(Actions.setAllFuelRequest(res.data));
            })
            .catch(err => console.log('error:',err));
     },[dispatch])
@@ -87,16 +77,17 @@ const RequestList = (props) =>{
 
     const submitApprove = (e) =>{
         setOpen(false);
-        axios.post(baseURl+'/api/v1/requests/approved',{requestID,approveID,driverID: driver.id})
+        axios.post(baseURl+'/api/v1/requests/fuel/approved',{requestID,approveID,quantity, price})
            .then(res=>{
-            axios.post(baseURl+'/api/v1/requests/all')
+            axios.post(baseURl+'/api/v1/requests/fuel/all')
             .then(res=>{
                 console.log(res.data);
-                dispatch(Actions.setAllRequest(res.data));
+                dispatch(Actions.setAllFuelRequest(res.data));
             })
             .catch(err => console.log('error:',err));
            })
            .catch(err => console.log('error:',err));
+      
     }
 
     const [open, setOpen] = React.useState(false);
@@ -112,32 +103,6 @@ const RequestList = (props) =>{
       setRequestID(0);
       setApproveID(0);
     }
-
-
-
-    const drivers = useSelector(({main}) => main.driver.drivers);
-    useEffect(()=>{
-        axios.get(baseURl+'/api/v1/drivers')
-           .then(res=>{
-               dispatch(Actions.setDrivers(res.data));
-           })
-           .catch(err => console.log('error:',err))
-   },[dispatch])
-    function handleChangeDriver(event) {
-        setDriver(oldValues => ({
-          ...oldValues,
-          [event.target.name]: event.target.value,
-        }));
-
-        console.log(driver);
-      }
-
-
-
-      const componentRef = useRef();
-      const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-      });
        
     return (
         <FusePageSimple
@@ -145,9 +110,9 @@ const RequestList = (props) =>{
                 root: props.layoutRoot
             }}
             header={
-                <div className="p-24"><h4>Pending and Approved Vehicle Requests</h4></div>
+                <div className="p-24"><h4>Pending and Approved Fuel Requests</h4></div>
             }
-            content={
+            content={ 
                 <>
                 {(!isLogin) && (<Redirect to='/login'/>) } 
                 {requests.map((req, index) => (
@@ -160,14 +125,14 @@ const RequestList = (props) =>{
                                 :
                                 (
                                     <Avatar className="">
-                                        {req.user.name}
+                                        {/* {req.driver.name} */}
                                     </Avatar>
                                 )
                             }
 
                             <div className="hidden md:flex flex-col ml-12 items-start">
                                 <Typography component="span" className="normal-case font-600 flex">
-                                    {req.user.name}
+                                    {/* {req.driver.name} */}
                                 </Typography>
                             </div>
                             
@@ -177,35 +142,19 @@ const RequestList = (props) =>{
                         <CardContent >
                             <div className={classes.cardholder}>
                                 <div className={classes.smallCard}>
-                                    <p><b>Passenger Details:</b></p>
-                                    <p>Name: {req.passenger_name}</p>
-                                    <p>Contact: {req.passenger_contact}</p>                                
-                                </div>
-                                <div className={classes.locationcard}>
-                                    <p><b>Location Details:</b></p>
-                                    <p>Source Address: {req.source}</p>
-                                    <p>Destination Address: {req.destination}</p>
-                                </div>
-                                <div className={classes.smallCard}>                               
-                                    <p><b>Time Details:</b></p>
-                                    <p>Travel: {req.travel_time}</p>
-                                    <p>Return: {req.return_time}</p>                                 
+                                    <p><b>Fuel Details:</b></p>
+                                    <p>Distance (KM): {req.distance_km}</p>
+                                    <p>Fuel Type: {req.fuel_type}</p>                                
                                 </div>
                             </div>
                             <hr />
                             {req.approves.map((app) => {
-                               
-                                if(!isAdmin && app.department === 'Administration'){
-                                 
-                                    return '';
-                                }
-                                else{
-                                  
+                                   
                                 return <div key={app.id}>
                                 <Chip
                                     style={{ margin: 5,backgroundColor:app.approved ? "lightGreen" : "orange"}}
                                     
-                                    label={app.approved ? `Approved by ${app.department} on ${app.updated_at}` : `Pending For ${app.department} Approve`}
+                                    label={app.approved ? `Approved by Administration on ${app.updated_at}` : `Pending For Administration Approve`}
                                     // onClick={handleClick}
                                     // onDelete={handleDelete}
                                     className={classes.chip}
@@ -218,15 +167,8 @@ const RequestList = (props) =>{
                                 }
                                 </div>
                                
-                            }})} 
+                            })} 
                         </CardContent>
-                        <Link to={{
-                            pathname: 'vehicle_print',
-                            state:{
-                                req
-                            }
-                        }}> GO TO</Link>
-                       
                     </Card> 
                 ))}
 
@@ -240,30 +182,32 @@ const RequestList = (props) =>{
                     >
                         <DialogTitle id="alert-dialog-slide-title">{"Request Approvable Model"}</DialogTitle>
                         <DialogContent>
-                        {canDriverAdd &&
-                        <DialogContentText id="alert-dialog-slide-description">
-                            Please Add The Driver before Approved the request
-                        </DialogContentText> }
-                        {canDriverAdd && <FormControl className={classes.formControl} style={{width:'100%'}}>
-                            <InputLabel htmlFor="driver" >Driver</InputLabel>
-                            <Select
-                           
-                            value={driver.id}
-                            onChange={handleChangeDriver}
-                            inputProps={{
-                                name: 'id',
-                               
-                            }}
-                            >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {drivers.map(data =>{
-                                return <MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
-                            })}
-                            
-                            </Select>
-                        </FormControl>}
+                            <FormControl style={{width: '40%', margin:'4%'}} >  
+                                <TextField
+                                    id="quantity"
+                                    label="Quantity (L)"
+                                    placeholder="Quantity"
+                                    type="number"
+                                    value={quantity}
+                                    onChange={handleChangeQuantity}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl style={{width: '40%', margin:'4%'}} >  
+                                <TextField
+                                    id="price"
+                                    label="Price (per L)"
+                                    placeholder="Price"
+                                    type="number"
+                                    value={price}
+                                    onChange={handleChangePrice}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                />
+                            </FormControl>
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleClose} color="primary">
@@ -276,7 +220,7 @@ const RequestList = (props) =>{
                     </Dialog>
                 
                 </>
-            }
+             }
         />
     )
 }

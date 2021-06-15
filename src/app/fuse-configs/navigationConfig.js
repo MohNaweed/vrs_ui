@@ -16,7 +16,7 @@ const navigationConfig = [
         ]
     },
     {
-        'id'      : 'applications',
+        'id'      : 'Management',
         'title'   : 'Management',
         'type'    : 'group',
         'icon'    : 'apps',
@@ -44,11 +44,34 @@ const navigationConfig = [
                 'url'  : '/department'
             },
             {
+                'id'   : 'location-component',
+                'title': 'Add Location',
+                'type' : 'item',
+                'icon' : 'assignment',
+                'url'  : '/location'
+            }
+        ]
+    },
+    {
+        'id'      : 'applications',
+        'title'   : 'Requests',
+        'type'    : 'group',
+        'icon'    : 'apps',
+        'children': [
+           
+            {
                 'id'   : 'all_request-component',
                 'title': 'Request',
                 'type' : 'item',
                 'icon' : 'assignment',
                 'url'  : '/all_request'
+            },
+            {
+                'id'   : 'all_request_fuel-component',
+                'title': 'Request List Fuel',
+                'type' : 'item',
+                'icon' : 'assignment',
+                'url'  : '/all_request_fuel'
             },
             {
                 'id'   : 'request-component',
@@ -64,13 +87,7 @@ const navigationConfig = [
                 'icon' : 'assignment',
                 'url'  : '/request_fuel'
             },
-            {
-                'id'   : 'location-component',
-                'title': 'Add Location',
-                'type' : 'item',
-                'icon' : 'assignment',
-                'url'  : '/location'
-            }
+            
         ]
     }
 ];

@@ -5,6 +5,8 @@ import {ExampleConfig} from 'app/main/example/ExampleConfig';
 import {RequestConfig} from 'app/main/request/RequestConfig';
 import {RequestFuelConfig} from 'app/main/request/RequestFuelConfig';
 import {RequestListConfig} from 'app/main/request/RequestListConfig';
+import {RequestFuelListConfig} from 'app/main/request/RequestFuelListConfig';
+import {RequestVehicleDetailsConfig} from 'app/main/request/RequestVehicleDetailsConfig';
 import {LocationConfig} from 'app/main/location/LocationConfig';
 import {CreateUserConfig} from 'app/main/user/CreateUserConfig';
 import ListDrivers from 'app/main/driver/ListDrivers';
@@ -17,6 +19,8 @@ const routeConfigs = [
     RequestConfig,
     RequestFuelConfig,
     RequestListConfig,
+    RequestFuelListConfig,
+    RequestVehicleDetailsConfig,
     LocationConfig,
     CreateUserConfig,
     ExampleConfig,
