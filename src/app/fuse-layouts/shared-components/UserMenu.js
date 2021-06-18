@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import {Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Typography} from '@material-ui/core';
+import {Badge,Menu,MenuItem, Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, Typography} from '@material-ui/core';
+//import {SendIcon, DraftsIcon, InboxIcon} from '@material-ui/icons';
+import {NotificationsActive, NotificationsNoneOutlined } from '@material-ui/icons';
 import {useSelector, useDispatch} from 'react-redux';
 import * as authActions from 'app/auth/store/actions';
 import {Link} from 'react-router-dom';
@@ -36,8 +38,96 @@ function UserMenu(props)
         
     }
 
+    //Notification
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    function handleClick(event) {
+      setAnchorEl(event.currentTarget);
+    }
+  
+    function handleClose() {
+      setAnchorEl(null);
+      window.scrollTo(0,0); 
+    }
+
     return (
         <React.Fragment>
+            <div style={{cursor:'pointer', marginTop:20, marginRight:20}}>
+            <Badge badgeContent={4} color="primary">
+        
+                <NotificationsActive onClick={handleClick}  />
+                </Badge>
+                
+
+                {/* <NotificationsNoneOutlined></NotificationsNoneOutlined> */}
+                <Menu
+                style={{cursor:'pointer', marginTop:45}}
+                    id="customized-menu"
+                    anchorEl={anchorEl}
+                    //keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    PaperProps={{
+                        style: {
+                          maxHeight: window.innerHeight - (window.innerHeight * 50) / 100,
+                          //width: '20ch',
+                        },
+                      }}
+                >
+                    <MenuItem >
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Sent mail" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Drafts" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Inbox" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Drafts" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Inbox" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Drafts" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Inbox" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Drafts" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Inbox" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Drafts" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Inbox" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Drafts" />
+                    </MenuItem>
+                    <MenuItem>
+                    <Avatar style={{marginRight: 10}} className="" alt="user photo" src={user.data.photoURL}/>
+                    <ListItemText primary="Inbox" />
+                    </MenuItem>
+                </Menu>
+                </div>
             {redirect && <Redirect to="/login" />}
             <Button className="h-64" onClick={userMenuClick}>
                 {user.data.photoURL ?

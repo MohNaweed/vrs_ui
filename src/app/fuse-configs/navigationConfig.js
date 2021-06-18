@@ -23,6 +23,13 @@ const navigationConfig = [
         'children': [
            
             {
+                'id'   : 'test-component',
+                'title': 'Example',
+                'type' : 'item',
+                'icon' : 'whatshot',
+                'url'  : '/example'
+            },
+            {
                 'id'   : 'listDrivers-component',
                 'title': 'Drivers Management',
                 'type' : 'item',
