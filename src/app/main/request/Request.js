@@ -141,7 +141,7 @@ const Request = (props) =>{
                                 <em>None</em>
                             </MenuItem>
                             {locations.map(data =>{
-                                return <MenuItem key={data.id} value={data.id}>{data.address}</MenuItem>
+                                return <MenuItem key={data.id} value={data.id}>{data.state}</MenuItem>
                             })}
                             
                             </Select>

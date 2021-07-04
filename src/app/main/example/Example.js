@@ -27,36 +27,36 @@ const Example = () => {
  
 //};
 
-const echo  =  new Echo({
-  broadcaster: 'pusher',
-  key: 'b711517b3faed74cffe2',
-  cluster: "ap2",
-  forceTLS: true  ,
-  encrypted : true,
-  withCredentials : true,
-//authEndpoint: 'http://localhost:8000/broadcasting/auth',
-  authorizer: (channel,options) =>{
-    return {
-      authorize: (socketId,callback) => {
-        axios.post('http://localhost:8000/api/broadcasting/auth', {
-          socket_id: socketId
-          , channel_name: channel.name
-        })
-        .then(res =>{
-          callback(false,res.data);
-        })
-        .catch(err => {
-          callback(true,err);
-        })
-      }
-    }
-  }
-  });
+// const echo  =  new Echo({
+//   broadcaster: 'pusher',
+//   key: 'b711517b3faed74cffe2',
+//   cluster: "ap2",
+//   forceTLS: true  ,
+//   encrypted : true,
+//   withCredentials : true,
+// //authEndpoint: 'http://localhost:8000/broadcasting/auth',
+//   authorizer: (channel,options) =>{
+//     return {
+//       authorize: (socketId,callback) => {
+//         axios.post('http://localhost:8000/api/broadcasting/auth', {
+//           socket_id: socketId
+//           , channel_name: channel.name
+//         })
+//         .then(res =>{
+//           callback(false,res.data);
+//         })
+//         .catch(err => {
+//           callback(true,err);
+//         })
+//       }
+//     }
+//   }
+//   });
 
 
-echo.private('App.Models.User.2').notification((data) => {
-    console.log(data);
-});
+// echo.private('App.Models.User.2').notification((data) => {
+//     console.log(data);
+// });
 
 
 

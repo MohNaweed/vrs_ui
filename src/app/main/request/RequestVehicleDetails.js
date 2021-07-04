@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {FusePageSimple} from '@fuse';
 import { makeStyles } from '@material-ui/core/styles';
+import {Print} from '@material-ui/icons';
 import { useReactToPrint } from 'react-to-print';
 import { RequestVehiclePrint } from './RequestVehiclePrint';
 
@@ -19,20 +20,11 @@ const ListDrivers = (props) =>{
   });
     
     return (
-        <FusePageSimple
-            classes={{
-                root: props.layoutRoot
-            }}
-            header={
-                <div className="p-24"><h4>Drivers Dashboard</h4></div>
-            }
-            content={
-                <div>
-                <RequestVehiclePrint ref={componentRef} />
-                <button onClick={handlePrint}>Print this out!</button>
-              </div>
-            }
-        />
+      <>
+        <button onClick={handlePrint}><Print fontSize="large" /></button>
+        <RequestVehiclePrint ref={componentRef} />
+      </>
+       
     )
 }
 

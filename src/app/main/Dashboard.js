@@ -3,7 +3,8 @@ import {Typography} from '@material-ui/core';
 import {FuseAnimate} from '@fuse';
 import Widget from './Widget';
 import {withStyles} from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 const styles = () => ({
     layoutRoot: {},
@@ -13,9 +14,10 @@ const styles = () => ({
 });
 
 const Dashboard = (props) =>{
-    
+    const isLogin = useSelector(({sanctumAuth}) => sanctumAuth.login.success);
     return (
         <div className="w-full">
+            {(!isLogin) && (<Redirect to='/login'/>) } 
             <FuseAnimate animation="transition.slideUpIn" delay={200}>
                 <div className="flex flex-col md:flex-row sm:p-8 container">
                     <div className="flex flex-1 flex-col min-w-0">

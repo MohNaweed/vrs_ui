@@ -63,7 +63,7 @@ const Location = (props) =>{
             hidden: true,
             validate: rowData => rowData.name.length > 3? 'Name cannot be empty' : ''
         },
-        { title: 'Address*', field: 'address' },
+        { title: 'State*', field: 'state' },
         { title: 'Longitude', field: 'longitude' },
         { title: 'Latitude', field: 'latitude' },
         { title: 'Information', field: 'location_info' }
@@ -199,7 +199,7 @@ const Location = (props) =>{
                         data={
                             locations.map(data => ({
                                 id : data.id,
-                                address: data.address,
+                                state: data.state,
                                 longitude: data.longitude,
                                 latitude: data.latitude,
                                 location_info: data.location_info
