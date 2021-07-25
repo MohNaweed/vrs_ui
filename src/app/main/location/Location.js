@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 
 const Location = (props) =>{
     const classes = useStyles();
-    const [selectedRow, setSelectedRow] = useState(null);
+    //const [selectedRow, setSelectedRow] = useState(null);
     const [iserror, setIserror] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
     const dispatch = useDispatch();
@@ -206,9 +206,9 @@ const Location = (props) =>{
                             }))
                         } 
                         
-                        onRowClick={(evt, selectedRow) =>
-                            setSelectedRow(selectedRow.tableData.id)
-                        }
+                        // onRowClick={(evt, selectedRow) =>
+                        //     setSelectedRow(selectedRow.tableData.id)
+                        // }
                         options={{
                           exportButton:true,
                            

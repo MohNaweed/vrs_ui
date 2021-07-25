@@ -8,7 +8,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+//import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import * as Actions from '../../store/actions/main';
@@ -40,7 +40,7 @@ const RequestList = (props) =>{
     const requests = useSelector(state => state.main.allFuelRequest.allFuelRequest);
     const [quantity, setQuantity] = useState('');
     const [price, setPrice] = useState('');
-    const [isAdmin,setIsAdmin] = useState(false);
+   // const [isAdmin,setIsAdmin] = useState(false);
     const [requestID,setRequestID] = useState(0);
     const [approveID,setApproveID] = useState(0);
 
@@ -49,24 +49,24 @@ const RequestList = (props) =>{
 
 
 
-    useEffect(()=>{
+    // useEffect(()=>{
         
-        if(Object.keys(mainUser).length !== 0){
-            if(mainUser.department.name ==='Administration' || (mainUser.department.name === 'Transport' && mainUser.department_position === 'head')){
-                setIsAdmin(true);
+    //     if(Object.keys(mainUser).length !== 0){
+    //         if(mainUser.department.name ==='Administration' || (mainUser.department.name === 'Transport' && mainUser.department_position === 'head')){
+    //             setIsAdmin(true);
                
-            }
+    //         }
             
-        }
+    //     }
 
-    },[mainUser])
+    // },[mainUser])
  
 
     
 
     useEffect(()=>{
     
-        axios.post(baseURl+'/api/v1/requests/fuel/all')
+        axios.post(baseURl+'/api/v1/requests/fuel/pendings')
            .then(res=>{
                console.log(res.data);
                dispatch(Actions.setAllFuelRequest(res.data));
@@ -79,7 +79,7 @@ const RequestList = (props) =>{
         setOpen(false);
         axios.post(baseURl+'/api/v1/requests/fuel/approved',{requestID,approveID,quantity, price})
            .then(res=>{
-            axios.post(baseURl+'/api/v1/requests/fuel/all')
+            axios.post(baseURl+'/api/v1/requests/fuel/pendings')
             .then(res=>{
                 console.log(res.data);
                 dispatch(Actions.setAllFuelRequest(res.data));
@@ -114,21 +114,16 @@ const RequestList = (props) =>{
             }
             content={ 
                 <>
-                {(!isLogin) && (<Redirect to='/login'/>) } 
+               {/* {(!isLogin) && (<Redirect to='/login'/>) }  */}
                 {requests.map((req, index) => (
                    <Card key={req.id} className={classes.card}>
                         <Button className="h-64" onClick={()=>console.log('hi')}>
-                            {user.data.photoURL ?
-                                (
-                                    <Avatar className="" alt="user photo" src={user.data.photoURL}/>
-                                )
-                                :
-                                (
-                                    <Avatar className="">
-                                        {/* {req.driver.name} */}
-                                    </Avatar>
-                                )
-                            }
+                        {(Object.keys(mainUser).length !== 0) && 
+                            <Avatar style={{marginRight: 10}}>{mainUser.name.substring(0,2)}</Avatar>
+                                
+                            
+
+                        }
 
                             <div className="hidden md:flex flex-col ml-12 items-start">
                                 <Typography component="span" className="normal-case font-600 flex">
@@ -148,26 +143,23 @@ const RequestList = (props) =>{
                                 </div>
                             </div>
                             <hr />
-                            {req.approves.map((app) => {
-                                   
-                                return <div key={app.id}>
+                            <div key={req.approve.id}>
                                 <Chip
-                                    style={{ margin: 5,backgroundColor:app.approved ? "lightGreen" : "orange"}}
+                                    style={{ margin: 5,backgroundColor:req.approve.approved ? "lightGreen" : "orange"}}
                                     
-                                    label={app.approved ? `Approved by Administration on ${app.updated_at}` : `Pending For Administration Approve`}
+                                    label={req.approve.approved ? `Approved by Administration on ${req.approve.updated_at}` : `Pending For Administration Approve`}
                                     // onClick={handleClick}
                                     // onDelete={handleDelete}
                                     className={classes.chip}
                                 
                                     deleteIcon={<DoneIcon />}
-                                />{ app.approved === 0 &&
+                                />{ req.approve.approved === 0 &&
                                 <FormControl className={classes.bottomChild}>
-                                    <Button onClick={()=>{handleClickOpen(req.id,app.id)}}>Click to Approve</Button>
+                                    <Button onClick={()=>{handleClickOpen(req.id,req.approve.id)}}>Click to Approve</Button>
                                 </FormControl>
                                 }
                                 </div>
-                               
-                            })} 
+                    
                         </CardContent>
                     </Card> 
                 ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {withStyles, makeStyles} from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import {EditAttributes} from '@material-ui/icons';
 import {useHistory} from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
@@ -127,21 +127,21 @@ const useStyles = makeStyles({
 
   });
 
-  function createDriverData(name, mobileNo, licenseNo, licenseExp) {
-    return { name, mobileNo, licenseNo, licenseExp };
-  }
+//   function createDriverData(name, mobileNo, licenseNo, licenseExp) {
+//     return { name, mobileNo, licenseNo, licenseExp };
+//   }
   
-  const driverRow = [
-    createDriverData('Driver2 driver', '073423422', '3242342', '2021/5'),
-  ];
+//   const driverRow = [
+//     createDriverData('Driver2 driver', '073423422', '3242342', '2021/5'),
+//   ];
   
-  function createVehicleData(vehicleNo, model, plate, color) {
-    return { vehicleNo, model, plate, color };
-  }
+//   function createVehicleData(vehicleNo, model, plate, color) {
+//     return { vehicleNo, model, plate, color };
+//   }
   
-  const vehicleRow = [
-    createVehicleData('342','Corolla 2010', '(-5) 343343', 'Red'),
-  ];
+//   const vehicleRow = [
+//     createVehicleData('342','Corolla 2010', '(-5) 343343', 'Red'),
+//   ];
 
 export const RequestVehiclePrint = React.forwardRef((props, ref) => {
     const classes = useStyles();

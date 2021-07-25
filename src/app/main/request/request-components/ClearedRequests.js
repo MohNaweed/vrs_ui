@@ -3,16 +3,16 @@ import axios from 'axios';
 import {withStyles, makeStyles } from '@material-ui/core/styles';
 import {useSelector, useDispatch} from 'react-redux';
 import { LinearProgress} from '@material-ui/core';
-import { Slide} from '@material-ui/core';
+//import { Slide} from '@material-ui/core';
 import {Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import * as Actions from '../../../store/actions/main';
 import  ShowRequest  from './ShowRequest';
 import {Link} from 'react-router-dom';
 //import { RequestVehiclePrint } from './RequestVehiclePrint';
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
 const ClearedRequests = (props) =>{
     const baseURl = 'http://localhost:8000';
     const classes = useStyles();

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Badge,Menu,MenuItem, Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, Typography} from '@material-ui/core';
 //import {SendIcon, DraftsIcon, InboxIcon} from '@material-ui/icons';
 import {NotificationsActive, NotificationsNoneOutlined } from '@material-ui/icons';
@@ -7,7 +7,7 @@ import * as authActions from 'app/auth/store/actions';
 import {Link} from 'react-router-dom';
 import * as Actions from 'app/sanctum-auth/store/actions';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+//import {Redirect} from 'react-router-dom';
 import Echo from 'laravel-echo';
 import Pusher, { Channel } from 'pusher-js';
 

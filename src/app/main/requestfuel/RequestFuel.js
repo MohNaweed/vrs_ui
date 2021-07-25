@@ -1,11 +1,11 @@
 import React, {useEffect,useState} from 'react';
-import {Redirect} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
+import {TextField, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {TextField, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, Select, Button} from '@material-ui/core';
 import {FusePageSimple} from '@fuse';
-import {useSelector, useDispatch} from 'react-redux';
-import * as Actions from '../../store/actions/main';
+// import {Redirect} from 'react-router-dom';
+// import {useSelector, useDispatch} from 'react-redux';
+// import * as Actions from '../../store/actions/main';
 import axios from 'axios';
 const styles = theme => ({
     layoutRoot: {}
