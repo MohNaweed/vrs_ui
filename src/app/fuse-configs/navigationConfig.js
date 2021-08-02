@@ -99,6 +99,13 @@ if(true){
                         'type' : 'item',
                         'icon' : 'assignment',
                         'url'  : '/location'
+                    },
+                    {
+                        'id'   : 'gasstation-component',
+                        'title': 'Add Gasstation',
+                        'type' : 'item',
+                        'icon' : 'assignment',
+                        'url'  : '/gasstation'
                     }
                 ]
             });

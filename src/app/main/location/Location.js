@@ -64,9 +64,12 @@ const Location = (props) =>{
             validate: rowData => rowData.name.length > 3? 'Name cannot be empty' : ''
         },
         { title: 'State*', field: 'state' },
+        { title: 'City', field: 'city' },
+        { title: 'Province', field: 'province' },
+        { title: 'Country', field: 'country' },
         { title: 'Longitude', field: 'longitude' },
         { title: 'Latitude', field: 'latitude' },
-        { title: 'Information', field: 'location_info' }
+        //{ title: 'Information', field: 'location_info' }
 
       ];
 
@@ -119,7 +122,7 @@ const Location = (props) =>{
     // end of CRUD functions
     //validation
     const isValidate = (newData)=>{
-        if(newData.address === undefined ||  newData.name === null ){
+        if(newData.state === undefined ||  newData.state === null ){
           
             const newError = [];
             newError.push('Please fill the required fields');
@@ -147,7 +150,7 @@ const Location = (props) =>{
                 root: props.layoutRoot
             }}
             header={
-                <div className="p-24"><h4>Drivers Dashboard</h4></div>
+                <div className="p-24"><h4>Location Dashboard</h4></div>
             }
             content={
                 <div className="p-24">
@@ -194,15 +197,18 @@ const Location = (props) =>{
                     {mainLoading && (<LinearProgress />)}
                     
                     <MaterialTable 
-                        title='Drivers Details'
+                        title='Location Details'
                         columns={columns} 
                         data={
                             locations.map(data => ({
                                 id : data.id,
                                 state: data.state,
+                                city: data.city,
+                                province: data.province,
+                                country: data.country,
                                 longitude: data.longitude,
                                 latitude: data.latitude,
-                                location_info: data.location_info
+                               // location_info: data.location_info
                             }))
                         } 
                         
@@ -217,7 +223,7 @@ const Location = (props) =>{
                             onRowUpdate: (newData, oldData) =>
                                 new Promise((resolve,reject) => {
                                 
-                                isValidate(newData) ? handleRowUpdate(newData, oldData, resolve,reject) : reject();
+                               handleRowUpdate(newData, oldData, resolve,reject);
                                 
                             }),
                             onRowAdd: (newData) =>

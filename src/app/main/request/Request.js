@@ -6,6 +6,7 @@ import {TextField, Switch, MenuItem, FormControlLabel, InputLabel, FormControl, 
 import {FusePageSimple} from '@fuse';
 import {useSelector, useDispatch} from 'react-redux';
 import * as Actions from '../../store/actions/main';
+
 import axios from 'axios';
 const styles = theme => ({
     layoutRoot: {}
@@ -76,6 +77,9 @@ const Request = (props) =>{
         axios.post(baseURl+'/api/v1/requests',{...dataBundle})
             .then(res=>{
                 console.log(res.data);
+                setPurpose('');
+                setPassengerName('');
+                setPassengerContact('');
             })
             .catch(err => console.log('error:',err))
         console.log(dataBundle);
@@ -101,6 +105,7 @@ const Request = (props) =>{
     },[dispatch])
 
     const isLogin = useSelector(state => state.sanctumAuth.login.success);
+    //const [submitForm, setSubmitForm]
     return (
         <>
          {(!isLogin) && (<Redirect to='/login'/>) } 
@@ -161,7 +166,7 @@ const Request = (props) =>{
                                 <em>None</em>
                             </MenuItem>
                             {locations.map(data =>{
-                                return <MenuItem key={data.id} value={data.id}>{data.address}</MenuItem>
+                                return <MenuItem key={data.id} value={data.id}>{data.state}</MenuItem>
                             })}
                             
                             </Select>

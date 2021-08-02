@@ -5,3 +5,4 @@ export * from './location.actions';
 export * from './request.actions';
 export * from './allRequest.actions';
 export * from './allFuelRequest.actions';
+export * from './gasstation.actions';

@@ -13,6 +13,7 @@ import ListDrivers from 'app/main/driver/ListDrivers';
 import ListVehicles from 'app/main/vehicle/ListVehicles';
 import Dashboard from 'app/main/Dashboard';
 import Department from 'app/main/department/departments';
+import Gasstation from 'app/main/gasstation/gasstations';
 // import Request from '../main/Request'
 
 const routeConfigs = [
@@ -45,6 +46,11 @@ const routes = [
         path     : '/department',
         exact    : true,
         component: Department
+    },
+    {
+        path     : '/gasstation',
+        exact    : true,
+        component: Gasstation
     },
     {
         path     : '/driver',

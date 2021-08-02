@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Typography} from '@material-ui/core';
 import {FuseAnimate} from '@fuse';
 import Widget from './Widget';
 import {withStyles} from '@material-ui/core/styles';
 import { Link, Redirect } from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import * as Actions from '../store/actions/fuse';
 
 const styles = () => ({
     layoutRoot: {},
@@ -15,6 +16,27 @@ const styles = () => ({
 
 const Dashboard = (props) =>{
     const isLogin = useSelector(({sanctumAuth}) => sanctumAuth.login.success);
+    const user = useSelector(({sanctumAuth}) => sanctumAuth.login.user);
+   // const isDriver = useSelector(({sanctumAuth}) => sanctumAuth.login.user);
+    const dispatch = useDispatch();
+
+
+
+    useEffect(()=>{
+        let cat = -1;
+        if(Object.keys(user).length !== 0){
+            if(user.department.name === 'Administrator') cat = 0;
+            else if(user.is_driver) cat = 3;
+            else if(user.department.name === 'Security') cat = 1;
+            else if(user.department.name === 'Transport') cat = 2;
+            
+        }
+
+        console.log('first', user);
+        console.log('cat', cat);
+        dispatch(Actions.setNavigation(cat));
+        
+    },[dispatch,user])
     return (
         <div className="w-full">
             {(!isLogin) && (<Redirect to='/login'/>) } 

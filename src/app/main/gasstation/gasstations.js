@@ -34,20 +34,20 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-const ListVehicles = (props) =>{
+const Gasstations = (props) =>{
     const classes = useStyles();
-    //const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedRow, setSelectedRow] = useState(null);
     const [iserror, setIserror] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
     const dispatch = useDispatch();
-    const vehicles = useSelector(state => state.main.vehicle.vehicles);
+    const gasstations = useSelector(state => state.main.gasstation.gasstations);
     const [mainLoading, setMainLoading] = useState([true]);
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/vehicles")
+        axios.get("http://localhost:8000/api/v1/gasstations")
           .then(res => {
-            dispatch(Actions.setvehicles(res.data));
+            dispatch(Actions.setGasstations(res.data));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -57,37 +57,25 @@ const ListVehicles = (props) =>{
           })
     }, [dispatch])
     const columns = [
-      { 
-          title: "id", 
-          field: "id", 
-          hidden: true,
-          validate: rowData => rowData.name.length > 3? 'Name cannot be empty' : ''
-      },
-      { title: 'Vehicle No*', field: 'vehicle_no' },
-      { title: 'Model', field: 'model' },
-      { title: 'Color', field: 'color' },
-      { title: 'Plate*', field: 'plate' },
-      { title: 'Chassis No', field: 'chassis_no'},
-      { title: 'Type', field: 'type' },
-      { 
-          
-        title: 'Province', 
-        field: 'province',
-        lookup: provinces_all,
-       
-      },
-      { title: 'Branch', field: 'branch_no'},
+        { 
+            title: "id", 
+            field: "id", 
+            hidden: true,
+            validate: rowData => rowData.name.length > 3? 'Name cannot be empty' : ''
+        },
+        { title: 'Name*', field: 'name' },
+        { title: 'Address', field: 'address' },
+        { title: 'Contact', field: 'contact' },
 
-
-    ];
+      ];
 
     //CRUD Functions
     const handleRowAdd = (newData, resolve, reject) => { 
         setMainLoading(true);
-        axios.post("http://localhost:8000/api/v1/vehicles", newData)
+        axios.post("http://localhost:8000/api/v1/gasstations", newData)
           .then(res => {
             console.log(res.data);
-            dispatch(Actions.addvehicle(newData));
+            dispatch(Actions.addGasstation(newData));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -99,10 +87,11 @@ const ListVehicles = (props) =>{
     }
     const handleRowDelete = (oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.delete(`http://localhost:8000/api/v1/vehicles/${oldData.id}`)
+        axios.get(`http://localhost:8000/api/v1/gasstations/delete/${oldData.id}`)
           .then(res => {
-            console.log(res.data);
-            dispatch(Actions.delvehicle(oldData));
+            //console.log(res.data);
+            //console.log(oldData.id);
+            dispatch(Actions.delGasstation(oldData));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -114,10 +103,10 @@ const ListVehicles = (props) =>{
     }
     const handleRowUpdate = (newData, oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.put(`http://localhost:8000/api/v1/vehicles/${newData.id}`, newData)
+        axios.put(`http://localhost:8000/api/v1/gasstations/${newData.id}`, newData)
           .then(res => {
             console.log(res.data);
-            dispatch(Actions.putvehicle(newData));
+            dispatch(Actions.putGasstation(newData));
             setMainLoading(false);
           })
           .catch(error=>{
@@ -130,7 +119,7 @@ const ListVehicles = (props) =>{
     // end of CRUD functions
     //validation
     const isValidate = (newData)=>{
-        if(newData.plate === undefined || newData.plate === null || newData.vehicle_no === null || newData.vehicle_no === null){
+        if(newData.name === undefined || newData.name === null){
           
             const newError = [];
             newError.push('Please fill the required fields');
@@ -158,7 +147,7 @@ const ListVehicles = (props) =>{
                 root: props.layoutRoot
             }}
             header={
-                <div className="p-24"><h4>vehicles Dashboard</h4></div>
+                <div className="p-24"><h4>gasstations Dashboard</h4></div>
             }
             content={
                 <div className="p-24">
@@ -205,36 +194,32 @@ const ListVehicles = (props) =>{
                     {mainLoading && (<LinearProgress />)}
                     
                     <MaterialTable 
-                        title='vehicles Details'
+                        title='gasstations Details'
                         columns={columns} 
                         data={
-                           
-                            vehicles.map(data => ({
-                              id : data.id,
-                              vehicle_no : data.vehicle_no,
-                              model: data.model,
-                              color: data.color,
-                              plate : data.plate,
-                              chassis_no : data.chassis_no,
-                              type: data.type,
-                              province: data.province,
-                              branch_no : data.branch_no
-                            
-                          }))
+                            gasstations.map(data => ({
+                                id : data.id,
+                                name : data.name,
+                                address: data.address,
+                                contact: data.contact,
+                            }))
                         } 
                         
-                        // onRowClick={(evt, selectedRow) =>
-                        //     //setSelectedRow(selectedRow.tableData.id)
-                        // }
+                        onRowClick={(evt, selectedRow) =>
+                            setSelectedRow(selectedRow.tableData.id)
+                        }
                         options={{
-                          exportButton:true,
-                           
+                            exportButton :true,
+                            rowStyle: rowData => ({
+                              backgroundColor:
+                                selectedRow === rowData.tableData.id ? '#67aeae' : '#FFF'
+                            })
                         }}
                         editable={{
                             onRowUpdate: (newData, oldData) =>
                                 new Promise((resolve,reject) => {
                                 
-                                handleRowUpdate(newData, oldData, resolve,reject);
+                                isValidate(newData) ? handleRowUpdate(newData, oldData, resolve,reject) : reject();
                                 
                             }),
                             onRowAdd: (newData) =>
@@ -248,10 +233,8 @@ const ListVehicles = (props) =>{
                                 new Promise((resolve,reject) => {
                                 handleRowDelete(oldData, resolve,reject)
                             }),
-                        }}
-                 
+                        }} 
                     />
-                    
                   
                 </div>
             }
@@ -259,47 +242,4 @@ const ListVehicles = (props) =>{
     )
 }
 
-export default withStyles(styles, {withTheme: true})(ListVehicles);
-
-
-const provinces_all = {
-	'Badakhshan': 'Badakhshan',
-	'Badghis': 'Badghis',
-	'Baghlan': 'Baghlan',
-	'Balkh': 'Balkh',
-	'Bamyan': 'Bamyan',
-	'Daykundi': 'Daykundi',
-	'Farah': 'Farah',
-	'Faryab': 'Faryab',
-	'Ghazni': 'Ghazni',
-	'Ghor': 'Ghor',
-	'Helmand': 'Helmand',
-	'Herat': 'Herat',
-	'Jowzjan': 'Jowzjan',
-	'Kabul': 'Kabul',
-	'Kandahar': 'Kandahar',
-	'Kapisa': 'Kapisa',
-	'Khost': 'Khost',
-	'Kunar': 'Kunar',
-	'Kunduz': 'Kunduz',
-	'Laghman': 'Laghman',
-	'Logar': 'Logar',
-	'Maidan_Wardak': 'Maidan_Wardak',
-	'Ningarhar':'Ningarhar',
-	'Nimruz':'Nimruz',
-	'Nuristan':'Nuristan',
-	'Paktia':'Paktia',
-	'Paktika':'Paktika',
-	'Panjshir':'Panjshir',
-	'Parwan':'Parwan',
-	'Samangan':'Samangan',
-	'Sar_e_pol' :'Sar_e_pol',
-	'Takhar':'Takhar',
-	'Uruzgan':'Uruzgan',
-	'Zabul':'Zabul'
-}
-
-
-
-
-
+export default withStyles(styles, {withTheme: true})(Gasstations);

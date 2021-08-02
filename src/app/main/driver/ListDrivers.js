@@ -41,8 +41,10 @@ const ListDrivers = (props) =>{
     const [errorMessages, setErrorMessages] = useState([]);
     const dispatch = useDispatch();
     const drivers = useSelector(state => state.main.driver.drivers);
+    const vehicles = useSelector(state => state.main.vehicle.vehicles);
     const [mainLoading, setMainLoading] = useState([true]);
     const [open, setOpen] = React.useState(false);
+    const [lookupData, setLookupData] = useState({});
 
     useEffect(() => {
         axios.get("http://localhost:8000/api/v1/drivers")
@@ -56,6 +58,33 @@ const ListDrivers = (props) =>{
             setMainLoading(false);
           })
     }, [dispatch])
+
+    useEffect(()=>{
+      axios.get("http://localhost:8000/api/v1/vehicles")
+      .then(res => {
+        let mylookupData = {};
+         for(var i = 0; i < res.data.length ; i++){ 
+          mylookupData[res.data[i].id] =res.data[i].vehicle_no;
+         }
+         setLookupData(mylookupData);
+        //console.log(mylookupData);
+      })
+    },[])
+
+
+    const fetchLookupData = () =>{
+      axios.get("http://localhost:8000/api/v1/vehicles")
+      .then(res => {
+        let mylookupData = {};
+         for(var i = 0; i < res.data.length ; i++){ 
+          mylookupData[res.data[i].id] =res.data[i].vehicle_no;
+         }
+         setLookupData(mylookupData);
+        console.log(mylookupData);
+      })
+    }
+
+
     const columns = [
         { 
             title: "id", 
@@ -67,14 +96,16 @@ const ListDrivers = (props) =>{
         { title: 'Surname', field: 'last_name' },
         { title: 'Mobile*', field: 'mobile_no' },
         { title: 'License No', field: 'license_no' },
-        { title: 'License Exp', field: 'license_expiry_no'},
-        { title: 'NIN', field: 'NIN' },
-        { 
-            title: 'Province', 
-            field: 'province',
-            lookup: provinces_all
+        { title: 'License Exp', field: 'license_expiry_date'},
+        { title: 'Vehicle' , 
+          field :'vehicle', 
+          //lookup: {1:20 , 2:40}
+          lookup:lookupData
         },
-        { title: 'Branch', field: 'branch_no'},
+        { title: 'NIN', field: 'NIN' },
+
+
+        
 
       ];
 
@@ -110,18 +141,34 @@ const ListDrivers = (props) =>{
         resolve();  
     }
     const handleRowUpdate = (newData, oldData, resolve, reject) => { 
+      console.log(newData);
         setMainLoading(true);
         axios.put(`http://localhost:8000/api/v1/drivers/${newData.id}`, newData)
           .then(res => {
-            console.log(res.data);
-            dispatch(Actions.putDriver(newData));
-            setMainLoading(false);
+            //console.log(res.data);
+            // dispatch(Actions.putDriver(newData));
+            // setMainLoading(false);
+
+
+            axios.get("http://localhost:8000/api/v1/drivers")
+            .then(res => {
+              dispatch(Actions.setDrivers(res.data));
+              setMainLoading(false);
+            })
+            .catch(error=>{
+              setErrorMessages(["Connection Lost"]);
+              setIserror(true);
+              setMainLoading(false);
+            })
+          
           })
           .catch(error=>{
             setErrorMessages(["Connection Lost"]);
             setIserror(true);
             setMainLoading(false);
           })
+
+      
         resolve();  
     }
     // end of CRUD functions
@@ -211,10 +258,10 @@ const ListDrivers = (props) =>{
                                 last_name: data.last_name,
                                 mobile_no: data.mobile_no,
                                 license_no : data.license_no,
-                                licens_expiry_date : data.licens_expiry_date,
+                                license_expiry_date : data.license_expiry_date,
+                                vehicle: data.vehicle_id,
                                 NIN: data.NIN,
-                                province: data.province,
-                                branch_no : data.branch_no
+                                
                             }))
                         } 
                         
@@ -229,13 +276,13 @@ const ListDrivers = (props) =>{
                             onRowUpdate: (newData, oldData) =>
                                 new Promise((resolve,reject) => {
                                 
-                                isValidate(newData) ? handleRowUpdate(newData, oldData, resolve,reject) : reject();
+                                  isValidate(newData) ? handleRowUpdate(newData, oldData, resolve,reject) : reject();
                                 
                             }),
                             onRowAdd: (newData) =>
                                 new Promise((resolve,reject) => {
                                     
-                                   isValidate(newData) ? handleRowAdd(newData, resolve,reject) : reject();
+                                  isValidate(newData) ? handleRowAdd(newData, resolve,reject) : reject();
                             }),
                             onRowAddCancelled: (rowData)=> console.log('yessss'),
                             onRowUpdateCancelled : (rowData)=> setErrorMessages([]),
@@ -260,43 +307,3 @@ export default withStyles(styles, {withTheme: true})(ListDrivers);
 
 
 
-
-
-
-
-const provinces_all = {
-	'Badakhshan': 'Badakhshan',
-	'Badghis': 'Badghis',
-	'Baghlan': 'Baghlan',
-	'Balkh': 'Balkh',
-	'Bamyan': 'Bamyan',
-	'Daykundi': 'Daykundi',
-	'Farah': 'Farah',
-	'Faryab': 'Faryab',
-	'Ghazni': 'Ghazni',
-	'Ghor': 'Ghor',
-	'Helmand': 'Helmand',
-	'Herat': 'Herat',
-	'Jowzjan': 'Jowzjan',
-	'Kabul': 'Kabul',
-	'Kandahar': 'Kandahar',
-	'Kapisa': 'Kapisa',
-	'Khost': 'Khost',
-	'Kunar': 'Kunar',
-	'Kunduz': 'Kunduz',
-	'Laghman': 'Laghman',
-	'Logar': 'Logar',
-	'Maidan_Wardak': 'Maidan_Wardak',
-	'Ningarhar':'Ningarhar',
-	'Nimruz':'Nimruz',
-	'Nuristan':'Nuristan',
-	'Paktia':'Paktia',
-	'Paktika':'Paktika',
-	'Panjshir':'Panjshir',
-	'Parwan':'Parwan',
-	'Samangan':'Samangan',
-	'Sar_e_pol' :'Sar_e_pol',
-	'Takhar':'Takhar',
-	'Uruzgan':'Uruzgan',
-	'Zabul':'Zabul'
-}

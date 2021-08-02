@@ -11,11 +11,11 @@ export function getNavigation()
     }
 }
 
-export function setNavigation(navigation)
+export function setNavigation(cat)
 {
     return {
         type: SET_NAVIGATION,
-        navigation
+        cat
     }
 }
 

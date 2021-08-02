@@ -6,6 +6,7 @@ import location from './location.reducer';
 import request from './request.reducer';
 import allRequest from './allRequest.reducer';
 import allFuelRequest from './allFuelRequest.reducer';
+import gasstation from './gasstation.reducer';
 
 const fuseReducers = combineReducers({
     driver,
@@ -15,6 +16,7 @@ const fuseReducers = combineReducers({
     request,
     allRequest,
     allFuelRequest,
+    gasstation
 });
 
 export default fuseReducers;
