@@ -7,6 +7,8 @@ import {RequestFuelConfig} from 'app/main/requestfuel/RequestFuelConfig';
 import {RequestListConfig} from 'app/main/request/RequestListConfig';
 import {RequestFuelListConfig} from 'app/main/requestfuel/RequestFuelListConfig';
 import {RequestVehicleDetailsConfig} from 'app/main/request/RequestVehicleDetailsConfig';
+import {RequestFuelDetailsConfig} from 'app/main/requestfuel/RequestFuelDetailsConfig';
+import OwnFuelRequests from 'app/main/requestfuel/OwnFuelRequests';
 import {LocationConfig} from 'app/main/location/LocationConfig';
 import {CreateUserConfig} from 'app/main/user/CreateUserConfig';
 import ListDrivers from 'app/main/driver/ListDrivers';
@@ -14,6 +16,7 @@ import ListVehicles from 'app/main/vehicle/ListVehicles';
 import Dashboard from 'app/main/Dashboard';
 import Department from 'app/main/department/departments';
 import Gasstation from 'app/main/gasstation/gasstations';
+import {DriverRelevantRequestsConfig} from 'app/main/driver/DriverRelevantRequestsConfig'
 // import Request from '../main/Request'
 
 const routeConfigs = [
@@ -21,10 +24,13 @@ const routeConfigs = [
     RequestFuelConfig,
     RequestListConfig,
     RequestFuelListConfig,
+   // OwnFuelRequestsConfig,
     RequestVehicleDetailsConfig,
+    RequestFuelDetailsConfig,
     LocationConfig,
     CreateUserConfig,
     ExampleConfig,
+    DriverRelevantRequestsConfig
 
 
   
@@ -51,6 +57,11 @@ const routes = [
         path     : '/gasstation',
         exact    : true,
         component: Gasstation
+    },
+    {
+        path     : '/own_fuel_request',
+        exact    : true,
+        component: OwnFuelRequests
     },
     {
         path     : '/driver',

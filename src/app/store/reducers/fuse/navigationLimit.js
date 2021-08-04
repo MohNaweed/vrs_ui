@@ -22,14 +22,6 @@ export function adminNavigation(){
             'type'    : 'group',
             'icon'    : 'apps',
             'children': [
-            
-                {
-                    'id'   : 'test-component',
-                    'title': 'Example',
-                    'type' : 'item',
-                    'icon' : 'whatshot',
-                    'url'  : '/example'
-                },
                 {
                     'id'   : 'listDrivers-component',
                     'title': 'Drivers Management',
@@ -76,33 +68,25 @@ export function adminNavigation(){
                
                 {
                     'id'   : 'all_request-component',
-                    'title': 'Request',
+                    'title': 'Vehicle Requests',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/all_request'
                 },
                 {
                     'id'   : 'all_request_fuel-component',
-                    'title': 'Request List Fuel',
+                    'title': 'Fuel Requests',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/all_request_fuel'
                 },
                 {
                     'id'   : 'request-component',
-                    'title': 'Request Vehicle',
+                    'title': ' Make Vehicle Request',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/request'
-                },
-                {
-                    'id'   : 'requestfuel-component',
-                    'title': 'Request Fuel',
-                    'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/request_fuel'
-                },
-                
+                },        
             ]
         },
          
@@ -126,56 +110,12 @@ export function securityNavigation(){
                     'icon' : 'whatshot',
                     'url'  : '/dashboard'
                 },
-            ]
-        },
-        {
-            'id'      : 'Management',
-            'title'   : 'Management',
-            'type'    : 'group',
-            'icon'    : 'apps',
-            'children': [
-            
-                {
-                    'id'   : 'test-component',
-                    'title': 'Example',
-                    'type' : 'item',
-                    'icon' : 'whatshot',
-                    'url'  : '/example'
-                },
-                {
-                    'id'   : 'listDrivers-component',
-                    'title': 'Drivers Management',
-                    'type' : 'item',
-                    'icon' : 'whatshot',
-                    'url'  : '/driver'
-                },
-                {
-                    'id'   : 'listVehicles-component',
-                    'title': 'Vehicle Management',
-                    'type' : 'item',
-                    'icon' : 'whatshot',
-                    'url'  : '/vehicle'
-                },
-                {
-                    'id'   : 'departments-component',
-                    'title': 'Department',
-                    'type' : 'item',
-                    'icon' : 'whatshot',
-                    'url'  : '/department'
-                },
                 {
                     'id'   : 'location-component',
                     'title': 'Add Location',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/location'
-                },
-                {
-                    'id'   : 'gasstation-component',
-                    'title': 'Add Gasstation',
-                    'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/gasstation'
                 }
             ]
         },
@@ -188,33 +128,18 @@ export function securityNavigation(){
                
                 {
                     'id'   : 'all_request-component',
-                    'title': 'Request',
+                    'title': 'Vehicle Requests',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/all_request'
                 },
                 {
-                    'id'   : 'all_request_fuel-component',
-                    'title': 'Request List Fuel',
-                    'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/all_request_fuel'
-                },
-                {
                     'id'   : 'request-component',
-                    'title': 'Request Vehicle',
+                    'title': 'Make Vehicle Request',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/request'
-                },
-                {
-                    'id'   : 'requestfuel-component',
-                    'title': 'Request Fuel',
-                    'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/request_fuel'
-                },
-                
+                },  
             ]
         },
          
@@ -245,14 +170,6 @@ export function transportNavigation(){
             'type'    : 'group',
             'icon'    : 'apps',
             'children': [
-            
-                {
-                    'id'   : 'test-component',
-                    'title': 'Example',
-                    'type' : 'item',
-                    'icon' : 'whatshot',
-                    'url'  : '/example'
-                },
                 {
                     'id'   : 'listDrivers-component',
                     'title': 'Drivers Management',
@@ -299,31 +216,24 @@ export function transportNavigation(){
                
                 {
                     'id'   : 'all_request-component',
-                    'title': 'Request',
+                    'title': 'Vehicle Requests',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/all_request'
                 },
                 {
                     'id'   : 'all_request_fuel-component',
-                    'title': 'Request List Fuel',
+                    'title': 'Fuel Requests ',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/all_request_fuel'
                 },
                 {
                     'id'   : 'request-component',
-                    'title': 'Request Vehicle',
+                    'title': 'Make Vehicle Request',
                     'type' : 'item',
                     'icon' : 'assignment',
                     'url'  : '/request'
-                },
-                {
-                    'id'   : 'requestfuel-component',
-                    'title': 'Request Fuel',
-                    'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/request_fuel'
                 },
                 
             ]
@@ -335,32 +245,33 @@ export function transportNavigation(){
 export function driverNavigation(){
     return [
         {
-            'id'      : 'applications',
-            'title'   : 'Requests',
+            'id'      : 'dashboard',
+            'title'   : 'Applications',
             'type'    : 'group',
             'icon'    : 'apps',
             'children': [
                
                 {
-                    'id'   : 'all_request-component',
-                    'title': 'Request',
+                    'id'   : 'dashboard-component',
+                    'title': 'Dashboard',
                     'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/all_request'
+                    'icon' : 'whatshot',
+                    'url'  : '/dashboard'
                 },
+            ]
+        },
+        {
+            'id'      : 'applications',
+            'title'   : 'Requests',
+            'type'    : 'group',
+            'icon'    : 'apps',
+            'children': [
                 {
-                    'id'   : 'all_request_fuel-component',
-                    'title': 'Request List Fuel',
+                    'id'   : 'gasstation-component',
+                    'title': 'Add Gasstation',
                     'type' : 'item',
                     'icon' : 'assignment',
-                    'url'  : '/all_request_fuel'
-                },
-                {
-                    'id'   : 'request-component',
-                    'title': 'Request Vehicle',
-                    'type' : 'item',
-                    'icon' : 'assignment',
-                    'url'  : '/request'
+                    'url'  : '/gasstation'
                 },
                 {
                     'id'   : 'requestfuel-component',
@@ -369,6 +280,21 @@ export function driverNavigation(){
                     'icon' : 'assignment',
                     'url'  : '/request_fuel'
                 },
+                {
+                    'id'   : 'own-fuel-request-component',
+                    'title': 'My Requests',
+                    'type' : 'item',
+                    'icon' : 'assignment',
+                    'url'  : '/own_fuel_request'
+                },
+                {
+                    'id'   : 'driver_relevant_requests',
+                    'title': 'Vehicle Requests',
+                    'type' : 'item',
+                    'icon' : 'assignment',
+                    'url'  : '/driver_relevant_reqeusts'
+                },
+                
                 
             ]
         },

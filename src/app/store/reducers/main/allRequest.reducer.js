@@ -5,6 +5,7 @@ const initialState = {
     pendingRequests:  [],
     clearedRequests:  [],
     ownRequests:  [],
+    driverRelevantRequests : []
 }
 
 const allRequest = function (state = initialState, {type, payload}) {
@@ -38,6 +39,13 @@ const allRequest = function (state = initialState, {type, payload}) {
                 ownRequests: payload.ownRequests
             };
         }
+        case Actions.SET_DRIVER_RELEVANT_REQUESTS:
+            {
+                return {
+                    ...state,
+                    driverRelevantRequests: payload.driverRelevantRequests
+                };
+            }
           
         default:
         {

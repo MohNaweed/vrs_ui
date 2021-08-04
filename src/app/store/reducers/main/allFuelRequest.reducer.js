@@ -1,7 +1,9 @@
 import * as Actions from '../../actions/main/index';
 
 const initialState = {
-    allFuelRequest:  []
+    allFuelRequest:  [],
+    clearedFuelRequests:[],
+    ownFuelRequests: []
 }
 
 const allFuelRequest = function (state = initialState, {type, payload}) {
@@ -13,6 +15,20 @@ const allFuelRequest = function (state = initialState, {type, payload}) {
                 ...state,
                 allFuelRequest: payload.allFuelRequest
             };
+        }
+        case Actions.SET_CLEARED_FUEL_REQUESTS:
+        {
+            return {
+                ...state,
+                clearedFuelRequests: payload.clearedFuelRequests
+            }
+        }
+        case Actions.SET_OWN_FUEL_REQUESTS:
+        {
+            return {
+                ...state,
+                ownFuelRequests : payload.ownFuelRequests
+            }
         }
         
         

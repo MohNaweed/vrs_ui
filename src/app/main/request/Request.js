@@ -207,6 +207,15 @@ const Request = (props) =>{
                                 }}
                             />
                         </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <TextField
+                                id="comment"
+                                label="Comment"
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                            />
+                        </FormControl>
                         {isReturn && <FormControl className={classes.formControl}>
                             <TextField
                                 id="return_time"

@@ -1,220 +1,89 @@
-import React,{useState,useEffect} from 'react';
-import {withStyles, makeStyles} from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import {FusePageSimple} from '@fuse';
-import axios from 'axios';
-import {useSelector, useDispatch} from 'react-redux';
-import { TextField ,Avatar, Chip, Card,  FormControl, CardContent, Button, Typography} from '@material-ui/core';
-import DoneIcon from '@material-ui/icons/Done';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-//import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import * as Actions from '../../store/actions/main';
-import {Redirect} from 'react-router-dom';
+import PendingFuelRequests from './requestfuel-components/PendingFuelRequests';
+import ClearedFuelRequests from './requestfuel-components/ClearedFuelRequests';
+//import OwnRequests from './request-components/OwnRequests';
+import RequestFuelDetails from './RequestFuelDetails';
+import {BottomNavigation, BottomNavigationAction,Paper} from '@material-ui/core';
+import { DoneAll, Person, Opacity} from '@material-ui/icons';
+import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+
 
 
 const useStyles = makeStyles({
-    card: {
-      minWidth: 275,
-    },
-    cardholder:{
-        display: 'flex'
-    },
-    smallCard:{
-        flex: 1,
-        margin : 5
-    }
-  });
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-const RequestList = (props) =>{
-    const baseURl = 'http://localhost:8000';
+  root: {
+    width: '100%',
+  },
+});
+
+
+const RequestFuelList = (props) =>{
+    //const baseURl = 'http://localhost:8000';
+    
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const user = useSelector(({auth}) => auth.user);
-    const mainUser = useSelector(({sanctumAuth}) => sanctumAuth.login.user);
-    const isLogin = useSelector(({sanctumAuth}) => sanctumAuth.login.success);
-    const requests = useSelector(state => state.main.allFuelRequest.allFuelRequest);
-    const [quantity, setQuantity] = useState('');
-    const [price, setPrice] = useState('');
-   // const [isAdmin,setIsAdmin] = useState(false);
-    const [requestID,setRequestID] = useState(0);
-    const [approveID,setApproveID] = useState(0);
+    const [value, setValue] = React.useState(0);
 
-    function handleChangeQuantity(event){ setQuantity(event.target.value);}
-    function handleChangePrice(event){ setPrice(event.target.value);}
-
-
-
-    // useEffect(()=>{
-        
-    //     if(Object.keys(mainUser).length !== 0){
-    //         if(mainUser.department.name ==='Administration' || (mainUser.department.name === 'Transport' && mainUser.department_position === 'head')){
-    //             setIsAdmin(true);
-               
-    //         }
-            
-    //     }
-
-    // },[mainUser])
- 
-
-    
-
-    useEffect(()=>{
-    
-        axios.post(baseURl+'/api/v1/requests/fuel/pendings')
-           .then(res=>{
-               console.log(res.data);
-               dispatch(Actions.setAllFuelRequest(res.data));
-           })
-           .catch(err => console.log('error:',err));
-    },[dispatch])
-
-
-    const submitApprove = (e) =>{
-        setOpen(false);
-        axios.post(baseURl+'/api/v1/requests/fuel/approved',{requestID,approveID,quantity, price})
-           .then(res=>{
-            axios.post(baseURl+'/api/v1/requests/fuel/pendings')
-            .then(res=>{
-                console.log(res.data);
-                dispatch(Actions.setAllFuelRequest(res.data));
-            })
-            .catch(err => console.log('error:',err));
-           })
-           .catch(err => console.log('error:',err));
-      
-    }
-
-    const [open, setOpen] = React.useState(false);
-
-    function handleClickOpen(reqID, appID) {
-      setOpen(true);
-      setRequestID(reqID);
-      setApproveID(appID);
-    }
-  
-    function handleClose() {
-      setOpen(false);
-      setRequestID(0);
-      setApproveID(0);
-    }
-       
     return (
         <FusePageSimple
             classes={{
                 root: props.layoutRoot
             }}
-            header={
-                <div className="p-24"><h4>Pending and Approved Fuel Requests</h4></div>
-            }
-            content={ 
-                <>
-               {/* {(!isLogin) && (<Redirect to='/login'/>) }  */}
-                {requests.map((req, index) => (
-                   <Card key={req.id} className={classes.card}>
-                        <Button className="h-64" onClick={()=>console.log('hi')}>
-                        {(Object.keys(mainUser).length !== 0) && 
-                            <Avatar style={{marginRight: 10}}>{mainUser.name.substring(0,2)}</Avatar>
-                                
-                            
 
-                        }
+            content={
+                <Router>
+                    <Paper>
+                        <BottomNavigation
+                            value={value}
+                            onChange={(event, newValue) => {
+                                setValue(newValue);
+                            }}
+                            showLabels
+                            className={classes.root}
+                            >
+                            <BottomNavigationAction 
+                                component={Link}
+                                to="/all_request_fuel"
+                                label="Pending Requests" 
+                                icon={<Opacity />} 
+                            />
+                            <BottomNavigationAction 
+                                component={Link}
 
-                            <div className="hidden md:flex flex-col ml-12 items-start">
-                                <Typography component="span" className="normal-case font-600 flex">
-                                    {/* {req.driver.name} */}
-                                </Typography>
-                            </div>
-                            
-
-                        </Button>
-                    
-                        <CardContent >
-                            <div className={classes.cardholder}>
-                                <div className={classes.smallCard}>
-                                    <p><b>Fuel Details:</b></p>
-                                    <p>Distance (KM): {req.distance_km}</p>
-                                    <p>Fuel Type: {req.fuel_type}</p>                                
-                                </div>
-                            </div>
-                            <hr />
-                            <div key={req.approve.id}>
-                                <Chip
-                                    style={{ margin: 5,backgroundColor:req.approve.approved ? "lightGreen" : "orange"}}
-                                    
-                                    label={req.approve.approved ? `Approved by Administration on ${req.approve.updated_at}` : `Pending For Administration Approve`}
-                                    // onClick={handleClick}
-                                    // onDelete={handleDelete}
-                                    className={classes.chip}
-                                
-                                    deleteIcon={<DoneIcon />}
-                                />{ req.approve.approved === 0 &&
-                                <FormControl className={classes.bottomChild}>
-                                    <Button onClick={()=>{handleClickOpen(req.id,req.approve.id)}}>Click to Approve</Button>
-                                </FormControl>
-                                }
-                                </div>
-                    
-                        </CardContent>
-                    </Card> 
-                ))}
-
-                    <Dialog
-                        open={open}
-                        TransitionComponent={Transition}
-                        keepMounted
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-slide-title"
-                        aria-describedby="alert-dialog-slide-description"
-                    >
-                        <DialogTitle id="alert-dialog-slide-title">{"Request Approvable Model"}</DialogTitle>
-                        <DialogContent>
-                            <FormControl style={{width: '40%', margin:'4%'}} >  
-                                <TextField
-                                    id="quantity"
-                                    label="Quantity (L)"
-                                    placeholder="Quantity"
-                                    type="number"
-                                    value={quantity}
-                                    onChange={handleChangeQuantity}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl style={{width: '40%', margin:'4%'}} >  
-                                <TextField
-                                    id="price"
-                                    label="Price (per L)"
-                                    placeholder="Price"
-                                    type="number"
-                                    value={price}
-                                    onChange={handleChangePrice}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                />
-                            </FormControl>
-                        </DialogContent>
-                        <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Cancel
-                        </Button>
-                        <Button onClick={submitApprove} color="primary">
-                            Approved
-                        </Button>
-                        </DialogActions>
-                    </Dialog>
+                                to="/cleared_fuel_request"
+                                label="Cleared Requests" 
+                                icon={<DoneAll />} 
+                            />
+                            {/* <BottomNavigationAction 
+                                component={Link}
+                                to="/own_request"
+                                label="My Requests" 
+                                icon={<Person />} 
+                            /> */}
+                          
+                        </BottomNavigation>
+                    </Paper>
+                    <div>
+                        <Switch>
+                            <Route exact path="/all_request_fuel">
+                                <PendingFuelRequests />
+                            </Route>
+                            <Route exact path="/cleared_fuel_request">
+                                <ClearedFuelRequests />
+                            </Route>
+                            {/* <Route path="/own_request">
+                                <OwnRequests />
+                            </Route> */}
+                            <Route path="/fuel_print">
+                                <RequestFuelDetails />
+                            </Route>
+                        </Switch>
+                    </div>
+                </Router>
                 
-                </>
-             }
+            }
         />
     )
 }
 
-export default withStyles({withTheme: true})(RequestList);
+export default RequestFuelList;

@@ -2,6 +2,7 @@ export const SET_PENDING_REQUESTS_TO_APPROVE = 'SET_PENDING_REQUESTS_TO_APPROVE'
 export const SET_PENDING_REQUESTS = 'SET_PENDING_REQUESTS';  
 export const SET_CLEARED_REQUESTS = 'SET_CLEARED_REQUESTS'; 
 export const SET_OWN_REQUESTS = 'SET_OWN_REQUESTS'; 
+export const SET_DRIVER_RELEVANT_REQUESTS = 'SET_DRIVER_RELEVANT_REQUESTS';
 
 
 
@@ -34,6 +35,15 @@ export function setOwnRequests(requests){
         type: SET_OWN_REQUESTS,
         payload:{
             ownRequests : requests
+        }
+    }
+}
+
+export function setDriverRelevantRequests(requests){
+    return {
+        type : SET_DRIVER_RELEVANT_REQUESTS,
+        pyaload:{
+            driverRelevantRequests : requests
         }
     }
 }

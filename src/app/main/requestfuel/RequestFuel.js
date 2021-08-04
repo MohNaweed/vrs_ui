@@ -33,6 +33,10 @@ const RequestFuel = (props) =>{
         axios.post(baseURl+'/api/v1/requestfuel',{SKM, fuelType})
             .then(res=>{
                 console.log(res.data);
+                setPKM('');
+                setCKM('');
+                setSKM('');
+                setFuelType('');
             })
             .catch(err => console.log('error:',err));
     }
