@@ -85,6 +85,13 @@ const Login = (props) =>{
         }
         
     } 
+
+    const testHandler = ()=>{
+      console.log('test handler called');
+      axios.get('172.24.10.71/public/test')
+        .then(res => console.log(res.data))
+        .catch(err =>console.log(err));
+    }
     
     
     
@@ -147,6 +154,13 @@ const Login = (props) =>{
                           document.cookie = "laravel_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=http://localhost:3000;";
                         }}
                     >clear cookies</Button>
+                    <Button 
+                        className={classes.item} 
+                        size="small"
+                        onClick={()=> {
+                          testHandler();
+                        }}
+                    >test</Button>
                 </CardContent>
             </Card>
         </div>
