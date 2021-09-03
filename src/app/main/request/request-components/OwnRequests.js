@@ -7,6 +7,7 @@ import { LinearProgress} from '@material-ui/core';
 import {Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import * as Actions from '../../../store/actions/main';
 import  ShowRequest  from './ShowRequest';
+import {Link} from 'react-router-dom';
 //import { RequestVehiclePrint } from './RequestVehiclePrint';
 
   // const Transition = React.forwardRef(function Transition(props, ref) {
@@ -62,7 +63,7 @@ const OwnRequests = (props) =>{
                     <StyledTableCell align="right">Passenger Name</StyledTableCell>
                     <StyledTableCell align="right">Travel Time</StyledTableCell>
                     <StyledTableCell align="right">View</StyledTableCell>
-                    <StyledTableCell align="right">Approve</StyledTableCell>
+                    <StyledTableCell align="right">Print</StyledTableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -78,7 +79,12 @@ const OwnRequests = (props) =>{
                         <StyledTableCell align="right">{row.travel_time}</StyledTableCell>
                         <StyledTableCell align="right"><ShowRequest request={row} /></StyledTableCell>
                         <StyledTableCell align="right">
-
+                        <Link to={{
+                            pathname: 'vehicle_print',
+                            state:{
+                                req:row
+                            }
+                        }}> Print View</Link>
                         </StyledTableCell>
                     </StyledTableRow>
                 ))}

@@ -10,7 +10,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from 'axios';
 import {useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 
 const Login = (props) =>{
@@ -133,11 +133,13 @@ const Login = (props) =>{
                         size="small"
                         onClick={()=> loginHandler()}
                     >Sign in</Button>
-                    <Button 
-                        className={classes.item} 
-                        size="small"
-                        onClick={()=> console.log('pressed sign up')}
-                    >Sign up</Button>
+                    <Link to="/create_user" >
+                      <Button 
+                          className={classes.item} 
+                          size="small"
+                          onClick={()=> console.log('pressed sign up')}
+                      >Sign up</Button>
+                    </Link>
                     <Button 
                         className={classes.item} 
                         size="small"
