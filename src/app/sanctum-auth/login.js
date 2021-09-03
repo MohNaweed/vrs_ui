@@ -88,7 +88,7 @@ const Login = (props) =>{
 
     const testHandler = ()=>{
       console.log('test handler called');
-      axios.get('172.24.10.71/public/test')
+      axios.get('/public/test')
         .then(res => console.log(res.data))
         .catch(err =>console.log(err));
     }
