@@ -15,7 +15,7 @@ import { Redirect, Link } from 'react-router-dom';
 
 const Login = (props) =>{
     axios.defaults.withCredentials = true;
-    const baseURL = "http://localhost:8000";
+    const baseURL = "/public";
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -160,7 +160,7 @@ const Login = (props) =>{
                         onClick={()=> {
                           testHandler();
                         }}
-                    >test</Button>
+                    >test1</Button>
                 </CardContent>
             </Card>
         </div>
