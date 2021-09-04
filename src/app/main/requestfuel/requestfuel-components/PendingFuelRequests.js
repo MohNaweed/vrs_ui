@@ -6,6 +6,7 @@ import {InputLabel,  MenuItem, Select , TextField ,FormControl, Button, LinearPr
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide} from '@material-ui/core';
 import {Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import * as Actions from '../../../store/actions/main';
+import {MAINURL} from '../../../MAINURL';
 //import  ShowRequest  from './ShowRequest';
 //import { RequestVehiclePrint } from './RequestVehiclePrint';
 
@@ -13,7 +14,7 @@ import * as Actions from '../../../store/actions/main';
     return <Slide direction="up" ref={ref} {...props} />;
   });
 const PendingRequests = (props) =>{
-    const baseURl = 'http://localhost:8000';
+    const baseURl = MAINURL;
     const classes = useStyles();
     const dispatch = useDispatch();
     const user = useSelector(({auth}) => auth.user);

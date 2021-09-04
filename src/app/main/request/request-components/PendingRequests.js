@@ -7,13 +7,14 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Sl
 import {Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/core';
 import * as Actions from '../../../store/actions/main';
 import  ShowRequest  from './ShowRequest';
+import {MAINURL} from '../../../MAINURL';
 //import { RequestVehiclePrint } from './RequestVehiclePrint';
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 const PendingRequests = (props) =>{
-    const baseURl = 'http://localhost:8000';
+    const baseURl = MAINURL;
     const classes = useStyles();
     const dispatch = useDispatch();
     //const user = useSelector(({auth}) => auth.user);

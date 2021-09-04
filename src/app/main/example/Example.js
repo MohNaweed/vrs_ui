@@ -3,12 +3,13 @@ import { useReactToPrint } from 'react-to-print';
 import Echo from 'laravel-echo';
 import Pusher, { Channel } from 'pusher-js';
 import axios from 'axios';
+import {MAINURL} from '../../MAINURL';
 
 import { ComponentToPrint } from './ComponentToPrint';
 
 const Example = () => {
   axios.defaults.withCredentials = true;
-  const baseURl = 'http://localhost:8000';
+  const baseURl = MAINURL;
 //const options = 
 
   //authEndpoint is your apiUrl + /broadcasting/auth

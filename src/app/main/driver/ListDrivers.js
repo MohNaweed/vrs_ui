@@ -17,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 
 import * as Actions from '../../store/actions/main';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import {MAINURL} from '../../MAINURL';
 
 
 const styles = theme => ({
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const ListDrivers = (props) =>{
+    const baseURL = MAINURL;
     const classes = useStyles();
     //const [selectedRow, setSelectedRow] = useState(null);
     const [iserror, setIserror] = useState(false);
@@ -47,7 +49,7 @@ const ListDrivers = (props) =>{
     const [lookupData, setLookupData] = useState({});
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/drivers")
+        axios.get(baseURL + "/api/v1/drivers")
           .then(res => {
             dispatch(Actions.setDrivers(res.data));
             setMainLoading(false);
@@ -60,7 +62,7 @@ const ListDrivers = (props) =>{
     }, [dispatch])
 
     useEffect(()=>{
-      axios.get("http://localhost:8000/api/v1/vehicles")
+      axios.get(baseURL + "/api/v1/vehicles")
       .then(res => {
         let mylookupData = {};
          for(var i = 0; i < res.data.length ; i++){ 
@@ -73,7 +75,7 @@ const ListDrivers = (props) =>{
 
 
     const fetchLookupData = () =>{
-      axios.get("http://localhost:8000/api/v1/vehicles")
+      axios.get(baseURL + "/api/v1/vehicles")
       .then(res => {
         let mylookupData = {};
          for(var i = 0; i < res.data.length ; i++){ 
@@ -112,7 +114,7 @@ const ListDrivers = (props) =>{
     //CRUD Functions
     const handleRowAdd = (newData, resolve, reject) => { 
         setMainLoading(true);
-        axios.post("http://localhost:8000/api/v1/drivers", newData)
+        axios.post(baseURL + "/api/v1/drivers", newData)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.addDriver(newData));
@@ -127,7 +129,7 @@ const ListDrivers = (props) =>{
     }
     const handleRowDelete = (oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.delete(`http://localhost:8000/api/v1/drivers/${oldData.id}`)
+        axios.delete(baseURL + `/api/v1/drivers/${oldData.id}`)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.delDriver(oldData));
@@ -143,14 +145,14 @@ const ListDrivers = (props) =>{
     const handleRowUpdate = (newData, oldData, resolve, reject) => { 
       console.log(newData);
         setMainLoading(true);
-        axios.put(`http://localhost:8000/api/v1/drivers/${newData.id}`, newData)
+        axios.put(baseURL + `/api/v1/drivers/${newData.id}`, newData)
           .then(res => {
             //console.log(res.data);
             // dispatch(Actions.putDriver(newData));
             // setMainLoading(false);
 
 
-            axios.get("http://localhost:8000/api/v1/drivers")
+            axios.get(baseURL + "/api/v1/drivers")
             .then(res => {
               dispatch(Actions.setDrivers(res.data));
               setMainLoading(false);

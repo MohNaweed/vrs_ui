@@ -3,6 +3,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {TextField, Radio, RadioGroup, FormControlLabel, FormLabel, FormControl, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {FusePageSimple} from '@fuse';
+import {MAINURL} from '../../MAINURL';
 // import {Redirect} from 'react-router-dom';
 // import {useSelector, useDispatch} from 'react-redux';
 // import * as Actions from '../../store/actions/main';
@@ -14,7 +15,7 @@ const styles = theme => ({
 
 const RequestFuel = (props) =>{
     const classes = useStyles();
-    const baseURl = 'http://localhost:8000';
+    const baseURl = MAINURL;
     const [PKM, setPKM] = useState(''); 
     const [CKM, setCKM] = useState(''); 
     const [SKM, setSKM] = useState(''); 

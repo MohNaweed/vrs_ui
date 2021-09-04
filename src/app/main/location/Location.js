@@ -17,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 
 import * as Actions from '../../store/actions/main';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import {MAINURL} from '../../MAINURL';
 
 
 const styles = theme => ({
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const Location = (props) =>{
+    const baseURL = MAINURL;
     const classes = useStyles();
     //const [selectedRow, setSelectedRow] = useState(null);
     const [iserror, setIserror] = useState(false);
@@ -45,7 +47,7 @@ const Location = (props) =>{
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/locations")
+        axios.get(baseURL +"/api/v1/locations")
           .then(res => {
             dispatch(Actions.setLocations(res.data));
             setMainLoading(false);
@@ -76,7 +78,7 @@ const Location = (props) =>{
     //CRUD Functions
     const handleRowAdd = (newData, resolve, reject) => { 
         setMainLoading(true);
-        axios.post("http://localhost:8000/api/v1/locations", newData)
+        axios.post(baseURL +"/api/v1/locations", newData)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.addLocation(newData));
@@ -91,7 +93,7 @@ const Location = (props) =>{
     }
     const handleRowDelete = (oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.delete(`http://localhost:8000/api/v1/locations/${oldData.id}`)
+        axios.delete(baseURL +`/api/v1/locations/${oldData.id}`)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.delLocation(oldData));
@@ -106,7 +108,7 @@ const Location = (props) =>{
     }
     const handleRowUpdate = (newData, oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.put(`http://localhost:8000/api/v1/locations/${newData.id}`, newData)
+        axios.put(baseURL +`/api/v1/locations/${newData.id}`, newData)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.putLocation(newData));

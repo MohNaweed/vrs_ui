@@ -11,11 +11,12 @@ import axios from 'axios';
 import {useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import { Redirect, Link } from 'react-router-dom';
+import {MAINURL} from '../MAINURL.js';
 
 
 const Login = (props) =>{
     axios.defaults.withCredentials = true;
-    const baseURL = "/public";
+    const baseURL = MAINURL;
     const classes = useStyles();
 
     const dispatch = useDispatch();

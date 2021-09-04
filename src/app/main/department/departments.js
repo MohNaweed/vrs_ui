@@ -17,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 
 import * as Actions from '../../store/actions/main';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import {MAINURL} from '../../MAINURL';
 
 
 const styles = theme => ({
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const Departments = (props) =>{
+    const baseURL = MAINURL;
     const classes = useStyles();
     const [selectedRow, setSelectedRow] = useState(null);
     const [iserror, setIserror] = useState(false);
@@ -45,7 +47,7 @@ const Departments = (props) =>{
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/departments")
+        axios.get(baseURL + "/api/v1/departments")
           .then(res => {
             dispatch(Actions.setDepartments(res.data));
             setMainLoading(false);
@@ -72,7 +74,7 @@ const Departments = (props) =>{
     //CRUD Functions
     const handleRowAdd = (newData, resolve, reject) => { 
         setMainLoading(true);
-        axios.post("http://localhost:8000/api/v1/departments", newData)
+        axios.post(baseURL + "/api/v1/departments", newData)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.addDepartment(newData));
@@ -87,7 +89,7 @@ const Departments = (props) =>{
     }
     const handleRowDelete = (oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.delete(`http://localhost:8000/api/v1/departments/${oldData.id}`)
+        axios.delete(baseURL + `/api/v1/departments/${oldData.id}`)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.delDepartment(oldData));
@@ -102,7 +104,7 @@ const Departments = (props) =>{
     }
     const handleRowUpdate = (newData, oldData, resolve, reject) => { 
         setMainLoading(true);
-        axios.put(`http://localhost:8000/api/v1/departments/${newData.id}`, newData)
+        axios.put(baseURL + `/api/v1/departments/${newData.id}`, newData)
           .then(res => {
             console.log(res.data);
             dispatch(Actions.putDepartment(newData));

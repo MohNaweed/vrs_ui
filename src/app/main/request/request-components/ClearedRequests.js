@@ -8,13 +8,14 @@ import {Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/cor
 import * as Actions from '../../../store/actions/main';
 import  ShowRequest  from './ShowRequest';
 import {Link} from 'react-router-dom';
+import {MAINURL} from '../../../MAINURL';
 //import { RequestVehiclePrint } from './RequestVehiclePrint';
 
   // const Transition = React.forwardRef(function Transition(props, ref) {
   //   return <Slide direction="up" ref={ref} {...props} />;
   // });
 const ClearedRequests = (props) =>{
-    const baseURl = 'http://localhost:8000';
+    const baseURL = MAINURL;
     const classes = useStyles();
     const dispatch = useDispatch();
     //const user = useSelector(({auth}) => auth.user);
@@ -38,7 +39,7 @@ const ClearedRequests = (props) =>{
 
  
     useEffect(()=>{
-        axios.post(baseURl+'/api/v1/requests/cleared')
+        axios.post(baseURL+'/api/v1/requests/cleared')
             .then(res=>{
                 dispatch(Actions.setClearedRequests(res.data));
                 setShowLoading(false);

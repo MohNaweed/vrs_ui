@@ -10,13 +10,14 @@ import axios from 'axios';
 //import {Redirect} from 'react-router-dom';
 import Echo from 'laravel-echo';
 import Pusher, { Channel } from 'pusher-js';
+import {MAINURL} from '../../MAINURL';
 
 
 function UserMenu(props)
 {
 
     axios.defaults.withCredentials = true; 
-    const baseURL = 'http://localhost:8000';
+    const baseURL = MAINURL;
     const [redirect,setRedirect] = useState(false)
     const dispatch = useDispatch();
     const user = useSelector(({auth}) => auth.user);

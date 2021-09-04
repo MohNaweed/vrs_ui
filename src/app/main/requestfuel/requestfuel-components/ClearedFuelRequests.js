@@ -8,13 +8,14 @@ import {Table, TableBody, TableCell, TableHead, TableRow} from '@material-ui/cor
 import * as Actions from '../../../store/actions/main';
 import  ShowFuelRequest  from './ShowFuelRequest';
 import {Link} from 'react-router-dom';
+import {MAINURL} from '../../../MAINURL';
 //import { RequestVehiclePrint } from './RequestVehiclePrint';
 
   // const Transition = React.forwardRef(function Transition(props, ref) {
   //   return <Slide direction="up" ref={ref} {...props} />;
   // });
 const ClearedFuelRequests = (props) =>{
-    const baseURl = 'http://localhost:8000';
+    const baseURl = MAINURL;
     const classes = useStyles();
     const dispatch = useDispatch();
     //const user = useSelector(({auth}) => auth.user);

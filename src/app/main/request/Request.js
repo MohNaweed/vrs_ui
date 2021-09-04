@@ -6,6 +6,7 @@ import {TextField, Switch, MenuItem, FormControlLabel, InputLabel, FormControl, 
 import {FusePageSimple} from '@fuse';
 import {useSelector, useDispatch} from 'react-redux';
 import * as Actions from '../../store/actions/main';
+import {MAINURL} from '../../MAINURL';
 
 import axios from 'axios';
 const styles = theme => ({
@@ -14,7 +15,7 @@ const styles = theme => ({
 
 
 const Request = (props) =>{
-    const baseURl = 'http://localhost:8000';
+    const baseURl = MAINURL;
     const classes = useStyles();
 
     //states
