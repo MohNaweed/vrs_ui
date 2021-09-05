@@ -122,6 +122,7 @@ function UserMenu(props)
     }
     return (
         <React.Fragment>
+            {/*
             {Object.keys(mainUser).length !== 0 &&
                 <div style={{cursor:'pointer', marginTop:20, marginRight:20}}>
                     {notifications.length === 0 &&
@@ -257,7 +258,7 @@ function UserMenu(props)
                         </MenuItem>
                     </React.Fragment>
                 )}
-            </Popover>
+                        </Popover> */}
         </React.Fragment>
     );
 }
